@@ -1,0 +1,579 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Red Rose Academy — Approved Design Preview</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        color: #203b50;
+        background: #fbfcfa;
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+      button {
+        font: inherit;
+        cursor: pointer;
+      }
+      .top {
+        background: linear-gradient(110deg, #0d3d52, #0b5064, #133955);
+        padding: 10px 6.4%;
+        color: #eaf5f6;
+        font-size: 12px;
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .navouter {
+        margin: 0 auto -40px;
+        padding: 0 3%;
+        position: relative;
+        z-index: 2;
+        background: linear-gradient(#0d3d52 55%, transparent 55%);
+      }
+      .nav {
+        height: 100px;
+        border: 1px solid white;
+        background: #fffeffed;
+        border-radius: 30px;
+        max-width: 1440px;
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 30px;
+        box-shadow: 0 16px 45px #042b4860;
+        backdrop-filter: blur(20px);
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+      }
+      .brand img {
+        height: 84px;
+        max-width: 120px;
+        object-fit: contain;
+      }
+      .brand h3 {
+        font: 700 29px/1.1 Georgia;
+        margin: 0;
+        color: #152e4c;
+        letter-spacing: -1px;
+      }
+      .brand small {
+        display: block;
+        font-size: 11px;
+        letter-spacing: 2.9px;
+        font-weight: 700;
+        color: #b17a35;
+        margin-top: 7px;
+      }
+      .navlinks {
+        display: flex;
+        gap: 13px;
+        align-items: center;
+        font-size: 13px;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+      .navlinks .active {
+        background: #0a6270;
+        color: white;
+        border-radius: 60px;
+        padding: 13px 19px;
+      }
+      .navlinks .erp {
+        background: linear-gradient(120deg, #1b5571, #0a4e65);
+        color: white;
+        border-radius: 30px;
+        padding: 14px 20px;
+        box-shadow: 0 8px 21px #0b436439;
+      }
+      .hero {
+        height: 714px;
+        background: url("assets/building.jpeg") 50% 51% / cover no-repeat;
+        position: relative;
+        color: white;
+        overflow: hidden;
+      }
+      .shade {
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(90deg, #061a2df5 0%, #09283ece 37%, #1b4a5975 63%, #0b344a99 100%),
+          linear-gradient(0deg, #11202b87, transparent 65%);
+      }
+      .heroinner {
+        position: relative;
+        max-width: 1420px;
+        margin: auto;
+        height: 100%;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 392px;
+        gap: 58px;
+        align-items: center;
+        padding: 72px 32px 118px;
+      }
+      .pill {
+        display: inline-flex;
+        border-radius: 40px;
+        border: 1px solid #ffffff8f;
+        background: #ffffff24;
+        padding: 11px 17px;
+        font-size: 12px;
+        font-weight: 700;
+        backdrop-filter: blur(12px);
+      }
+      h1 {
+        font:
+          700 96px/0.95 Georgia,
+          serif;
+        letter-spacing: -5px;
+        margin: 26px 0 5px;
+        max-width: 700px;
+      }
+      h1 em {
+        font-style: normal;
+        color: #efcf91;
+      }
+      .location {
+        font: 700 49px/1.1 Georgia;
+        margin: 5px 0 23px;
+      }
+      .accent {
+        width: 74px;
+        height: 3px;
+        background: #e9c181;
+        margin-bottom: 25px;
+      }
+      .headline {
+        font: 600 31px/1.2 Georgia;
+        margin: 0 0 15px;
+      }
+      .description {
+        font-size: 15px;
+        line-height: 1.78;
+        color: #e5f2f5;
+        max-width: 535px;
+      }
+      .buttons {
+        display: flex;
+        gap: 12px;
+        margin: 28px 0;
+      }
+      .buttons span {
+        padding: 17px 24px;
+        border-radius: 40px;
+        font-size: 13px;
+        font-weight: 700;
+      }
+      .buttons .gold {
+        background: linear-gradient(110deg, #fff0cb, #e9bb74);
+        color: #1f3c50;
+        box-shadow: 0 7px 27px #ebbb786b;
+      }
+      .buttons .outline {
+        background: #ffffff1c;
+        border: 1px solid #ffffffa1;
+        backdrop-filter: blur(8px);
+      }
+      .dots {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        margin-top: 35px;
+      }
+      .dots i {
+        width: 7px;
+        height: 7px;
+        background: #ffffff97;
+        border-radius: 10px;
+      }
+      .dots i:first-child {
+        width: 32px;
+        background: #eac080;
+      }
+      .dots small {
+        margin-left: 12px;
+        font-weight: 700;
+        font-size: 11px;
+      }
+      .notice {
+        background: #f6fbfbee;
+        border: 1px solid #fff;
+        border-radius: 30px;
+        color: #233e51;
+        padding: 20px;
+        box-shadow: 0 24px 64px #071c2e66;
+        backdrop-filter: blur(25px);
+      }
+      .tabs {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      .tabs span {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        align-items: center;
+        padding: 15px 8px;
+        border-radius: 45px;
+        font-size: 13px;
+        font-weight: 700;
+        background: #fff;
+      }
+      .tabs span:first-child {
+        background: linear-gradient(110deg, #0c6675, #064b61);
+        color: #fff;
+        box-shadow: 0 5px 12px #084e6451;
+      }
+      .noticeslot {
+        height: 275px;
+        background: #ffffffd9;
+        border-radius: 21px;
+        margin: 15px 0 14px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        align-items: center;
+        padding: 22px;
+      }
+      .noticeslot .icon {
+        font-size: 27px;
+        color: #0c7183;
+      }
+      .noticeslot b {
+        margin: 15px 0 7px;
+        font-size: 15px;
+      }
+      .noticeslot p {
+        font-size: 12px;
+        line-height: 1.7;
+        color: #64798b;
+        max-width: 250px;
+      }
+      .viewall {
+        text-align: center;
+        background: linear-gradient(110deg, #0b6a75, #0b415c);
+        color: #fff;
+        padding: 16px 12px;
+        border-radius: 36px;
+        font-size: 13px;
+        font-weight: 700;
+      }
+      .quick {
+        max-width: 1360px;
+        margin: -71px auto 0;
+        padding: 11px;
+        position: relative;
+        z-index: 3;
+        background: #faffffdb;
+        border: 1px solid white;
+        border-radius: 32px;
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 6px;
+        box-shadow: 0 22px 65px #21485c35;
+        backdrop-filter: blur(25px);
+      }
+      .q {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        padding: 21px 9px;
+        justify-content: center;
+      }
+      .q i {
+        font-style: normal;
+        font-size: 25px;
+        width: 53px;
+        height: 53px;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(140deg, #fff, #dceef0);
+        color: #176e7e;
+        border-radius: 17px;
+        box-shadow:
+          5px 7px 16px #1459782b,
+          inset 2px 2px 4px #fff;
+      }
+      .q b {
+        font-size: 13px;
+      }
+      .about {
+        background: linear-gradient(115deg, #fffdfa, #f5faf7 70%, #fbf4e8);
+        padding: 100px max(5%, calc((100% - 1330px) / 2)) 110px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 73px;
+        align-items: center;
+      }
+      .aboutimg {
+        position: relative;
+      }
+      .aboutimg img {
+        width: 100%;
+        height: 390px;
+        object-fit: cover;
+        border: 9px solid white;
+        border-radius: 36px;
+        box-shadow: 0 30px 70px #30536c35;
+      }
+      .stamp {
+        position: absolute;
+        left: 28px;
+        bottom: 23px;
+        padding: 15px;
+        background: #f8ffffd8;
+        backdrop-filter: blur(12px);
+        border: 1px solid white;
+        border-radius: 16px;
+        font-size: 12px;
+        font-weight: 700;
+        color: #1a4660;
+      }
+      .overline {
+        font-size: 12px;
+        letter-spacing: 2.7px;
+        color: #9c752d;
+        font-weight: bold;
+      }
+      .about h2 {
+        font: 700 55px/1.05 Georgia;
+        letter-spacing: -2px;
+        color: #153852;
+        margin: 19px 0;
+      }
+      .about h2 em {
+        font-style: normal;
+        color: #ac752f;
+      }
+      .about p {
+        color: #617583;
+        font-size: 15px;
+        line-height: 1.9;
+      }
+      .tiles {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin: 23px 0;
+      }
+      .tile {
+        background: white;
+        border: 1px solid white;
+        border-radius: 17px;
+        box-shadow: 0 12px 20px #254e5312;
+        text-align: center;
+        padding: 16px 6px;
+        font-weight: bold;
+        font-size: 11px;
+        display: grid;
+        gap: 10px;
+      }
+      .tile i {
+        font-style: normal;
+        font-size: 25px;
+        color: #be913c;
+      }
+      .learn {
+        display: inline-block;
+        padding: 15px 27px;
+        border-radius: 25px;
+        background: #115d70;
+        color: white;
+        font-size: 13px;
+        font-weight: 700;
+      }
+      .footer {
+        background: #0a3a52;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        padding: 45px 7%;
+        font-size: 12px;
+      }
+      .footer span {
+        color: #c3e6e8;
+      }
+      @media (max-width: 1150px) {
+        .navlinks {
+          gap: 7px;
+        }
+        .navlinks span:nth-child(4),
+        .navlinks span:nth-child(5),
+        .navlinks span:nth-child(6) {
+          display: none;
+        }
+        .hero h1 {
+          font-size: 76px;
+        }
+        .heroinner {
+          grid-template-columns: 1fr 355px;
+          gap: 28px;
+        }
+        .quick {
+          margin-left: 15px;
+          margin-right: 15px;
+        }
+        .q {
+          gap: 5px;
+        }
+        .q i {
+          width: 43px;
+          height: 43px;
+        }
+      }
+      @media (max-width: 800px) {
+        .top {
+          font-size: 10px;
+        }
+        .navouter {
+          margin-bottom: -15px;
+        }
+        .nav {
+          height: 85px;
+          border-radius: 23px;
+        }
+        .brand img {
+          height: 68px;
+        }
+        .brand h3 {
+          font-size: 22px;
+        }
+        .navlinks {
+          display: none;
+        }
+        .hero {
+          height: auto;
+          min-height: 950px;
+        }
+        .heroinner {
+          grid-template-columns: 1fr;
+          padding: 100px 24px 110px;
+        }
+        .hero h1 {
+          font-size: 60px;
+        }
+        .location {
+          font-size: 36px;
+        }
+        .notice {
+          max-width: 500px;
+        }
+        .quick {
+          grid-template-columns: repeat(2, 1fr);
+          margin-top: -47px;
+        }
+        .about {
+          grid-template-columns: 1fr;
+          padding: 65px 22px;
+          gap: 34px;
+        }
+        .about h2 {
+          font-size: 42px;
+        }
+        .footer {
+          flex-direction: column;
+          gap: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="top">
+      <span>📍 Rongpur, Silchar, Assam</span
+      ><span>School Code 35669 &nbsp; │ &nbsp; CBSE Affiliation 230354</span>
+    </div>
+    <div class="navouter">
+      <div class="nav">
+        <div class="brand">
+          <img src="assets/logo.png" alt="Original Red Rose Academy crest" />
+          <div>
+            <h3>Red Rose Academy</h3>
+            <small>SILCHAR · ASSAM</small>
+          </div>
+        </div>
+        <div class="navlinks">
+          <span class="active">Home</span><span>About Us ▾</span><span>Academics ▾</span
+          ><span>Facilities</span><span>Activities</span><span>Gallery</span><span>Circulars</span
+          ><span>Contact</span><span class="erp">ERP Login ↗</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero">
+      <div class="shade"></div>
+      <div class="heroinner">
+        <div>
+          <div class="pill">🎓 &nbsp; Learning · Growth · Community</div>
+          <h1>Red Rose <em>Academy</em></h1>
+          <div class="location">Silchar</div>
+          <div class="accent"></div>
+          <div class="headline">A place to learn and grow</div>
+          <p class="description">
+            Our school is a welcoming place to explore, discover, and thrive. Every day brings new
+            ideas, new skills, and new opportunities to grow.
+          </p>
+          <div class="buttons">
+            <span class="gold">Explore Our School →</span
+            ><span class="outline">▧ View School Gallery</span>
+          </div>
+          <div class="dots"><i></i><i></i><i></i><small>01 / 03</small></div>
+        </div>
+        <div class="notice">
+          <div class="tabs"><span>♧ Notice Board</span><span>▤ Circulars</span></div>
+          <div class="noticeslot">
+            <span class="icon">♧</span><b>No notices published yet</b>
+            <p>Official circulars will appear here when the school publishes them.</p>
+          </div>
+          <div class="viewall">View All Notices &amp; Circulars →</div>
+        </div>
+      </div>
+    </div>
+    <div class="quick">
+      <div class="q"><i>♙</i><b>About Us</b></div>
+      <div class="q"><i>▤</i><b>Academics</b></div>
+      <div class="q"><i>⌂</i><b>Facilities</b></div>
+      <div class="q"><i>☆</i><b>Activities</b></div>
+      <div class="q"><i>▧</i><b>Gallery</b></div>
+      <div class="q"><i>☎</i><b>Contact Us</b></div>
+    </div>
+    <div class="about">
+      <div class="aboutimg">
+        <img src="assets/building.jpeg" alt="Original Red Rose Academy building photograph" />
+        <div class="stamp">⌂ &nbsp; Red Rose Academy, Silchar</div>
+      </div>
+      <div>
+        <div class="overline">● &nbsp; ABOUT THE SCHOOL</div>
+        <h2>A Place to <em>Learn and Grow</em></h2>
+        <p>
+          Our school is a welcoming place to explore, discover, and thrive. Every day brings new
+          ideas, new skills, and new opportunities to grow.
+        </p>
+        <div class="tiles">
+          <div class="tile"><i>⌂</i>School life</div>
+          <div class="tile"><i>♙</i>Facilities</div>
+          <div class="tile"><i>☆</i>Achievements</div>
+          <div class="tile"><i>▤</i>Documents</div>
+        </div>
+        <span class="learn">Know More About Us →</span>
+      </div>
+    </div>
+    <div class="footer">
+      <b>Red Rose Academy · Silchar, Assam</b
+      ><span
+        >Visual preview · Original school image · Replaceable from the protected admin panel</span
+      >
+    </div>
+  </body>
+</html>

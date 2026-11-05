@@ -1,0 +1,27 @@
+
+# secrets and legacy private data
+.env
+.env.*
+!.env.example
+node_modules/
+.next/
+*.tsbuildinfo
+data/admin.sqlite
+.backups/
+.audit/
+.private/
+
+# Generated output, local logs and private database/key exports
+out/
+dist/
+build/
+coverage/
+*.log
+*.pem
+*.key
+*.pfx
+*.p12
+*.bson
+*.archive.gz
+.DS_Store
+Thumbs.db

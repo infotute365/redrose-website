@@ -1,0 +1,29 @@
+[
+  {
+    "id": "new-journey",
+    "title": "A new journey begins",
+    "description": "Excitement filled the air as students stepped into their classrooms, ready for a year of learning, friendship, and growth. Here’s to new beginnings!",
+    "src": "/images/home2.jpeg",
+    "alt": "Two students smiling at a classroom desk",
+    "displayOrder": 1,
+    "isPublished": true
+  },
+  {
+    "id": "learning-growth",
+    "title": "A place to learn and grow",
+    "description": "Our school is a welcoming place to explore, discover, and thrive. Every day brings new ideas, new skills, and new opportunities to grow.",
+    "src": "/images/home1.jpeg",
+    "alt": "Red Rose School building",
+    "displayOrder": 0,
+    "isPublished": true
+  },
+  {
+    "id": "together",
+    "title": "Together as one",
+    "description": "Each morning, students gather to share ideas and start the day with a sense of community, school spirit, and motivation.",
+    "src": "/images/home3.jpeg",
+    "alt": "Students gathered for morning assembly",
+    "displayOrder": 2,
+    "isPublished": true
+  }
+]
