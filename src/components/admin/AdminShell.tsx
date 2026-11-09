@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -45,6 +45,20 @@ export function AdminShell({ section, children }: { section: AdminSection; child
   const [error, setError] = useState("");
   const router = useRouter();
   const current = navigation.find((item) => item.key === section)!;
+  useEffect(() => {
+    // Access tokens expire after 15 min; rotate HttpOnly refresh cookies periodically.
+    const renew = () => {
+      if (document.visibilityState === "visible") {
+        void fetch("/api/admin/refresh", { method: "POST", cache: "no-store" });
+      }
+    };
+    const interval = window.setInterval(renew, 10 * 60_000);
+    document.addEventListener("visibilitychange", renew);
+    return () => {
+      window.clearInterval(interval);
+      document.removeEventListener("visibilitychange", renew);
+    };
+  }, []);
   function closeDrawer() {
     drawer.current?.close();
     setOpen(false);

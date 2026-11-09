@@ -1,0 +1,931 @@
+{
+  "archive": "Red_Rose_StMary_Backend_Aligned_Secure_2026-11-07.zip",
+  "fileCount": 185,
+  "files": [
+    {
+      "path": ".env.example",
+      "bytes": 701,
+      "sha256": "1c331991128ed632c1e3dac6c40d80754bfd3e09d904ec929697d596571140ca"
+    },
+    {
+      "path": ".gitattributes",
+      "bytes": 142,
+      "sha256": "5bbc9288d6920231fb242259a1e598a06619d438a93accb37083736031f6f0a5"
+    },
+    {
+      "path": ".gitignore",
+      "bytes": 305,
+      "sha256": "989e3b8fb2ac06e5c2fb100148ebe1b84f110f3abf98db3e5f031fa5575dbab8"
+    },
+    {
+      "path": ".prettierignore",
+      "bytes": 194,
+      "sha256": "d96c7f8ac40a88b10a56ee3899c06325d8d3ab48b8d3f66b02cd722d0afe318e"
+    },
+    {
+      "path": ".prettierrc.json",
+      "bytes": 201,
+      "sha256": "4fdd0e9e0abed7d6c27410259ba81196e4dc1a5491b2557cbba64c6de171de4c"
+    },
+    {
+      "path": "AGENTS.md",
+      "bytes": 679,
+      "sha256": "063098f6cb31bb44c6f8fbea25b3876de7ee1e5f7d00a50dbab506f6415eb7f0"
+    },
+    {
+      "path": "DEPLOYMENT.md",
+      "bytes": 15344,
+      "sha256": "7fbc1aa8c859d5f2bdb862b2518c46ca6eb7952d4b918d66261bd4f0af017488"
+    },
+    {
+      "path": "PUBLIC_ASSET_PRESERVATION_SHA256.json",
+      "bytes": 3781,
+      "sha256": "d6912058396db50feeb7a852e05a507d8f008b599a5eba40ccc5ac5620658cd3"
+    },
+    {
+      "path": "README.md",
+      "bytes": 13672,
+      "sha256": "a2782e74e16ecc54f6ed9b797640719a032f5270b663c5e6edf495229f6dc9af"
+    },
+    {
+      "path": "RELEASE_REVIEW.md",
+      "bytes": 4795,
+      "sha256": "2393e5adcf03afcdc1743ffb8f1bb8a852c510344c3d44ae7ec2667607b22b6c"
+    },
+    {
+      "path": "START_HERE.md",
+      "bytes": 5716,
+      "sha256": "5ae3d469c3e4c0c1162a0f93d6a74a06403dc257d114ea131d6c5ac5dd5228c5"
+    },
+    {
+      "path": "components.json",
+      "bytes": 520,
+      "sha256": "0a6c4596c0841acf5c9ee05c19574aa64c7ec47c0e397f5b6eb2c3c6942953cc"
+    },
+    {
+      "path": "data/seed-events.json",
+      "bytes": 1646,
+      "sha256": "a22953c66e5de2d6e750c1443984d88eda2037c696d6fde6d1853747d2f12be1"
+    },
+    {
+      "path": "data/seed-slides.json",
+      "bytes": 1079,
+      "sha256": "940e2c15ff22b650e9684e623e11806d85f18fd3012d38afab856b678fe1d407"
+    },
+    {
+      "path": "deploy/nginx.conf.example",
+      "bytes": 1733,
+      "sha256": "e94e8dcfeb0c46bda8fb60cabf5357e89d74048a1973f0d57647527523232aa7"
+    },
+    {
+      "path": "deploy/red-rose-academy.service",
+      "bytes": 737,
+      "sha256": "8d57075fd420db6fdd6fa32fe73ffae4b8c7e0893eb405b4438fb04ce4f43e09"
+    },
+    {
+      "path": "deploy/red-rose-media-cleanup.service",
+      "bytes": 507,
+      "sha256": "91bd8ef3d67182721f15b6bd2369894fb1fb5b1c1a6c5b434766a81449ae23eb"
+    },
+    {
+      "path": "deploy/red-rose-media-cleanup.timer",
+      "bytes": 206,
+      "sha256": "26163448a9bcb39bf01075d717a553afff7e10c6227e2a013ef378503d6746ca"
+    },
+    {
+      "path": "docs/RED_ROSE_ADMIN_SETUP.md",
+      "bytes": 5505,
+      "sha256": "51683b53ff7613e20137ae155ccc8c65b95b326838967248258cc2079b69f100"
+    },
+    {
+      "path": "eslint.config.mjs",
+      "bytes": 520,
+      "sha256": "43d8ae750d337ed8bfaee5c6c6ff47acbfc4252587d1fcee80abb008f6b725b1"
+    },
+    {
+      "path": "lib/utils.ts",
+      "bytes": 25,
+      "sha256": "55bbdc94cef3e0c8a8bba386e94f97228dd2c967fe61466fc565378890550c08"
+    },
+    {
+      "path": "next-env.d.ts",
+      "bytes": 296,
+      "sha256": "0f70629890b72a0a82e91972cc032c04b658b26c265373cb711cf576bfbf8fcc"
+    },
+    {
+      "path": "next.config.ts",
+      "bytes": 1000,
+      "sha256": "e4f6e0fd086c6881d21e06a88fd6c57ab77e1984a197931df01e7d7d0003c3f6"
+    },
+    {
+      "path": "package-lock.json",
+      "bytes": 350502,
+      "sha256": "35eee0699557a9e5b1a7ccd3131119b2bc00b28b714e6813de25fbf7b54c10ec"
+    },
+    {
+      "path": "package.json",
+      "bytes": 1772,
+      "sha256": "b43efcfb459c4d10602ee11001a62699b6cdf23e7e84ab93d24290e058fbf7e2"
+    },
+    {
+      "path": "public/images/Md.jpeg",
+      "bytes": 203057,
+      "sha256": "95d63d5ae7c026172fb622f768b8ad2b4259deff89a2481df2b88ffba9bfb948"
+    },
+    {
+      "path": "public/images/RedRoseLogoBBG.png",
+      "bytes": 65278,
+      "sha256": "b133abf15c16ebff53460683930258a998fd2be80e398b5be585289e9bcbf742"
+    },
+    {
+      "path": "public/images/events/Event1.jpeg",
+      "bytes": 393219,
+      "sha256": "03c45f48ef08b3238cae132623974bffb8d3c5790f85652bd559a402c1cdbbe7"
+    },
+    {
+      "path": "public/images/events/Event2.jpeg",
+      "bytes": 109966,
+      "sha256": "b85d789035139f67c39bd243576ccba21aff489477a5461e4ffe575bd3981e46"
+    },
+    {
+      "path": "public/images/events/Event3.jpeg",
+      "bytes": 188055,
+      "sha256": "f8cc3d796eb04a27b82c3d44164bb8b6b6ee68b064157eed46eaa98551d862f0"
+    },
+    {
+      "path": "public/images/events/Event4.jpeg",
+      "bytes": 233454,
+      "sha256": "a7aeb79faac7cd9b6bb82818f848f8c7113445c7b92504813a08b5fb04937525"
+    },
+    {
+      "path": "public/images/facilities/ScienceLab.jpg",
+      "bytes": 3747198,
+      "sha256": "53bfcb42ab379c2126552aa43052c45d4459f7c97e8ec8013da60564ee53772d"
+    },
+    {
+      "path": "public/images/facilities/club_activities.jpg",
+      "bytes": 2208118,
+      "sha256": "3aece76376d1f3cbc430f8d042ff887193e68d4251630f7297d48a92c33d8dad"
+    },
+    {
+      "path": "public/images/facilities/computer-lab.jpg",
+      "bytes": 1369703,
+      "sha256": "2342cae8abf4c41cd21aea395b2f4053ab396cec114865d847a87b94595c85e3"
+    },
+    {
+      "path": "public/images/facilities/excursions.jpg",
+      "bytes": 3927281,
+      "sha256": "e3fe9acf6f5d5dd3c7e4b8f7fd96019e619b4d15b03ade5cf508185d0702e29e"
+    },
+    {
+      "path": "public/images/facilities/exhibition.jpg",
+      "bytes": 2536006,
+      "sha256": "8520afdfdfab53c39365f78372f67bb995805e271e51fbddc54619088f1bdb4a"
+    },
+    {
+      "path": "public/images/facilities/fitness.jpg",
+      "bytes": 696203,
+      "sha256": "50046eb152e4f3786c2d49d2188edea8ddba92182c7bf70e8ae2d61af6af3538"
+    },
+    {
+      "path": "public/images/facilities/healthcamp.jpg",
+      "bytes": 835180,
+      "sha256": "2032b3b2f4301d0c8179fb7790148fb1fc2767b93900826ca7996fc558670839"
+    },
+    {
+      "path": "public/images/facilities/medium_instruction.jpg",
+      "bytes": 4289379,
+      "sha256": "0ecef3c929a1a7be450c112df153efa7ed1fe371e4023cf07087c83681980d10"
+    },
+    {
+      "path": "public/images/facilities/other_events.jpg",
+      "bytes": 1418082,
+      "sha256": "9a9b782b628984e4bc58a28f32296eeec16eb690548290215c93ca540690071e"
+    },
+    {
+      "path": "public/images/facilities/school_classes.jpg",
+      "bytes": 1049651,
+      "sha256": "2e924b11a23e1f1f1e3cb69c97a9f712c237dd6d42e9dbc3986aee4b50702837"
+    },
+    {
+      "path": "public/images/facilities/school_library.jpg",
+      "bytes": 2177359,
+      "sha256": "b3f6256d3a1af18e859fcb29b4f6c08585d4e21f46395912d7aad1abb028738b"
+    },
+    {
+      "path": "public/images/facilities/smart_classes.jpg",
+      "bytes": 739891,
+      "sha256": "ee03852929d734c62c1557f0f57fb122771b8de7b13dc4bf5f13b04a83c4cf69"
+    },
+    {
+      "path": "public/images/facilities/sports.jpg",
+      "bytes": 3752821,
+      "sha256": "77f966ce06e903ed267dbd1a2463684c8f6f69bef1fee2a1299ff3012a44b916"
+    },
+    {
+      "path": "public/images/facilities/transportation.jpg",
+      "bytes": 832413,
+      "sha256": "3e1432ec4156c09da28fceda7973f4fdf1a4b040132fcf23b730bb68c62ce566"
+    },
+    {
+      "path": "public/images/facilities/young_turks26_round_1_achievement.pdf",
+      "bytes": 127242,
+      "sha256": "c5747a908bdf40821d74fe258a654cacc30e9fb685365a4ae53d4aa742a81d05"
+    },
+    {
+      "path": "public/images/home1.jpeg",
+      "bytes": 92748,
+      "sha256": "bee0b13e7bff21db5534c38c183c8cf5f51f6b1271c8b6019f0763814069d573"
+    },
+    {
+      "path": "public/images/home2.jpeg",
+      "bytes": 490604,
+      "sha256": "451b1c1beb9f0bbbba77fad0ea0f07dcea269813dd1024726803d8afb9dd0601"
+    },
+    {
+      "path": "public/images/home3.jpeg",
+      "bytes": 634689,
+      "sha256": "780965544c363d1501175e34ca9bd3f6b9a19bb6c675e2dd89f6d158d3f933ec"
+    },
+    {
+      "path": "public/images/home4.jpeg",
+      "bytes": 634689,
+      "sha256": "780965544c363d1501175e34ca9bd3f6b9a19bb6c675e2dd89f6d158d3f933ec"
+    },
+    {
+      "path": "public/images/img1.jpg",
+      "bytes": 38301,
+      "sha256": "d1ff961d94cc2d0acac20ff04be58884ef426c896b534788f437caa5ad232d9f"
+    },
+    {
+      "path": "public/images/img2.jpg",
+      "bytes": 234174,
+      "sha256": "1cadca098a41289cdfb6cd3ae1ca95a3f63d16221b42fd339c21a27c75e7fd0a"
+    },
+    {
+      "path": "public/images/img3.jpg",
+      "bytes": 129613,
+      "sha256": "d9c0dbf02c3281d956340030bfd2b7d3fc74691df11d101163a1637ba79c7a55"
+    },
+    {
+      "path": "public/images/img4.jpeg",
+      "bytes": 423176,
+      "sha256": "b867559ee0fbe84ae539454ec761002847e7029ea51543140ae3cc8403bb4308"
+    },
+    {
+      "path": "public/images/principal.jpg",
+      "bytes": 318018,
+      "sha256": "167b209a7a1be9b814629c638dc6149045a721c219303e326c02c09e622ef803"
+    },
+    {
+      "path": "public/uploads/circulars.json",
+      "bytes": 2,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "public/uploads/documents.json",
+      "bytes": 742,
+      "sha256": "cf1678fba7704cc67512e953b90f23286b303e3c2d081e981e5d4271ce7ef004"
+    },
+    {
+      "path": "public/uploads/documents/6b0f2dc8-03e7-46e5-98ba-b15de6e6ed61-RedRose_TC_CBSE_Format_1_1.pdf",
+      "bytes": 197828,
+      "sha256": "4987d98a981e4a539d3dae2c0aceb7c1447ca9259d7f5fb58f6db2d012331921"
+    },
+    {
+      "path": "public/uploads/documents/80ad461d-041f-4260-be52-bb43ebc09ccd-Redrose_Fees_2026-27.pdf",
+      "bytes": 526935,
+      "sha256": "7d51b9289c6d3d830d6b5b318c0278a60315a8202734dbce3a645c55c7c2fad9"
+    },
+    {
+      "path": "scripts/backup-database.mjs",
+      "bytes": 3589,
+      "sha256": "fc7fa6518bba1c2663a1aa6bfd874a6e4bc8c6b3cbe7eebb22fdbfbe7d883b69"
+    },
+    {
+      "path": "scripts/check-seed-config.mjs",
+      "bytes": 2038,
+      "sha256": "44e997aee572c51089a1c2fcc19921a41edbabc56fcd35e8516e49cdd995bd81"
+    },
+    {
+      "path": "scripts/cleanup-media.mjs",
+      "bytes": 825,
+      "sha256": "70b13cfeb2a22d492c6f63645e2900c27cddd072982c8879ac25e40ac5c426d8"
+    },
+    {
+      "path": "scripts/configure-auth.mjs",
+      "bytes": 1418,
+      "sha256": "aafb59b8886b528fc5712fc1751b410afbd9e6104cd7e1274024374580268d9b"
+    },
+    {
+      "path": "scripts/format-inventory.mjs",
+      "bytes": 1943,
+      "sha256": "a647dda3590a734caae877bc30d26404513d7f7aa47e3b1d7ebcedf4376f96c7"
+    },
+    {
+      "path": "scripts/lib/mongo-client.mjs",
+      "bytes": 3138,
+      "sha256": "69329f0ea4d766054d5a71ddd76781e93486ab3fa634a7f39ab44bec126deaf1"
+    },
+    {
+      "path": "scripts/seed-admin.mjs",
+      "bytes": 3062,
+      "sha256": "8e1243a39b0ad206fd454c7076aa089d0a5c2954ed6626855bbed94fccdf4a3b"
+    },
+    {
+      "path": "scripts/seed-database.mjs",
+      "bytes": 3238,
+      "sha256": "422ee27f9452c9658a733c3460b2a4e382e010d617deb7907808f42d71359e6c"
+    },
+    {
+      "path": "scripts/verify-backup.mjs",
+      "bytes": 3747,
+      "sha256": "7b4ad475614964f2626162f6d1c3f89cf12d527191649d57026e463bedee6f8b"
+    },
+    {
+      "path": "scripts/verify-preservation.mjs",
+      "bytes": 2277,
+      "sha256": "4b3e442e11448f7741763b0eba440a33f6552d84c9b704f8244a3c821d9b4a58"
+    },
+    {
+      "path": "scripts/verify-production.mjs",
+      "bytes": 2266,
+      "sha256": "b715a0d1f4f994573aeb3e5e1883e95b4f7f660af16f93df5e51cfe2b793d511"
+    },
+    {
+      "path": "src/app/admin/admin.css",
+      "bytes": 28719,
+      "sha256": "f7ddfc7d900b5fd768d6624d0a4c5524dbe9a721e9431208418586361d4e323c"
+    },
+    {
+      "path": "src/app/admin/background/page.tsx",
+      "bytes": 560,
+      "sha256": "c6ecb9e7e6feb98a61778f5b1c7a4ded3d93aa44449b9375a361b5598ffd003c"
+    },
+    {
+      "path": "src/app/admin/circulars/page.tsx",
+      "bytes": 521,
+      "sha256": "f00631adc96e425c02365948d297b78141961a29fa93eb021a454d6ccc2742a2"
+    },
+    {
+      "path": "src/app/admin/dashboard/page.tsx",
+      "bytes": 989,
+      "sha256": "04606138e9e96fda2e2946a3da2a0fdceffa3dee35ff87692937a28f685e6421"
+    },
+    {
+      "path": "src/app/admin/documents/page.tsx",
+      "bytes": 521,
+      "sha256": "04cd77b75eedbb1ecf40ac3155629940c0734538e0c846a9e5ee06e089c84f96"
+    },
+    {
+      "path": "src/app/admin/editor/page.tsx",
+      "bytes": 422,
+      "sha256": "09d8af416a1fab371e04a11aa6749e37041c31cfa37da34b093b575e8f7db6c5"
+    },
+    {
+      "path": "src/app/admin/layout.tsx",
+      "bytes": 197,
+      "sha256": "2631a6244d0e36d399c43e02e5c77d17135cf18bd681c8660b3c1774fe178655"
+    },
+    {
+      "path": "src/app/admin/login/page.tsx",
+      "bytes": 3903,
+      "sha256": "e3a656279da4c7ecc711a0501063db61249024ec59f180ce67301c1c39eb67f5"
+    },
+    {
+      "path": "src/app/admin/sections/page.tsx",
+      "bytes": 986,
+      "sha256": "41028f9d08577b2587646d241bda6474e07859d78f7bed88f79f8c8867642ce8"
+    },
+    {
+      "path": "src/app/api/admin/circulars/route.ts",
+      "bytes": 5672,
+      "sha256": "4248164f6e1fa1b5edb792705b4afdffb0e0d73d2ffa5795a159e0ce8910640e"
+    },
+    {
+      "path": "src/app/api/admin/content/route.ts",
+      "bytes": 4011,
+      "sha256": "93c2f60ccd85be1021efc779b206f48905df9d701e13e535f9a0aeef3cf512c5"
+    },
+    {
+      "path": "src/app/api/admin/documents/route.ts",
+      "bytes": 7315,
+      "sha256": "f9fd57fb14f269b9dd6aef62a0c07fe14ae17590f1dcb92c2e78bcdf7f27e980"
+    },
+    {
+      "path": "src/app/api/admin/login/route.ts",
+      "bytes": 509,
+      "sha256": "032dd752f15931bff6a74735eeaf29ed8200fef6d661f94899b9b3dd632ede96"
+    },
+    {
+      "path": "src/app/api/admin/logout/route.ts",
+      "bytes": 189,
+      "sha256": "7cf173d589dd0d2db8aa9c588c8e49ec32f85631b05836d744de28d5b86c76af"
+    },
+    {
+      "path": "src/app/api/admin/media/route.ts",
+      "bytes": 1529,
+      "sha256": "2a825a738defa705302c7b577e8954a2f699df3d92879abdb231e7e119466ca2"
+    },
+    {
+      "path": "src/app/api/admin/refresh/route.ts",
+      "bytes": 190,
+      "sha256": "3526802fd33056f47ea7b64b8a10b24b32cfcf2c87c52ecf3b40d15f494e8196"
+    },
+    {
+      "path": "src/app/api/admin/sections/[kind]/route.ts",
+      "bytes": 9588,
+      "sha256": "0f5e77cf38c3cd7a56bd89b52c99e647653838d5b53e66e5f29611a994e72b10"
+    },
+    {
+      "path": "src/app/api/circulars/route.ts",
+      "bytes": 194,
+      "sha256": "2b6a7e067318a02f219f16fe78f6c22f26e9d63c02b0d2a12aaa0ceb2bdece64"
+    },
+    {
+      "path": "src/app/api/documents/[id]/file/route.ts",
+      "bytes": 1217,
+      "sha256": "0121439f26714a04a00965edaf9cbad7fab7a13d9fdce05fb897fb2a7f5c18b6"
+    },
+    {
+      "path": "src/app/api/media/[id]/route.ts",
+      "bytes": 3015,
+      "sha256": "4090a047c129bcd54971a1cd2c8d0b523ebe814a7220ff7f680b4ea679493bf8"
+    },
+    {
+      "path": "src/app/api/site-content/route.ts",
+      "bytes": 303,
+      "sha256": "078941d1db965b840f7cf49fad9e23223eb5bed6183e9e7c286edb1b86ff3664"
+    },
+    {
+      "path": "src/app/circulars/page.tsx",
+      "bytes": 3500,
+      "sha256": "bf4f3b22861ca52097f6a350b8310e84b68f8b32e5883a977d3d521e1720bc04"
+    },
+    {
+      "path": "src/app/favicon.ico",
+      "bytes": 15086,
+      "sha256": "c28fdd2a4f31e2dc64f653962286da5c82a4cdfc518b242d32812c624e9a19a4"
+    },
+    {
+      "path": "src/app/gallery/page.tsx",
+      "bytes": 3210,
+      "sha256": "bff5c7d1399a6a6e879ed1463f83a24d115207db652ec4a210265c1b78bd97a3"
+    },
+    {
+      "path": "src/app/globals.css",
+      "bytes": 19185,
+      "sha256": "ec45093fa708b47567474f4e1552268c789c22f03ba5337354a05b83045c09c9"
+    },
+    {
+      "path": "src/app/layout.tsx",
+      "bytes": 1919,
+      "sha256": "beaba28b6d67114858d4ce973e86ed6cff4b81481a325090f24fa6d807168a68"
+    },
+    {
+      "path": "src/app/page.tsx",
+      "bytes": 1053,
+      "sha256": "a3650d51289e3d3d2689b5922fd5ec8534a38edf55c4dcce62b0667c027e6c92"
+    },
+    {
+      "path": "src/app/pages/about-us/page.tsx",
+      "bytes": 127,
+      "sha256": "e03f6393b91908a36f64e67e918b117b6e1310ea314b2a67662c2f44fafd2ca3"
+    },
+    {
+      "path": "src/app/pages/aims-of-objectives/page.tsx",
+      "bytes": 181,
+      "sha256": "cee1da17f5a1a9edadae1d7811c8e39c379aa3c5618c5e4417c84d6071455082"
+    },
+    {
+      "path": "src/app/pages/contact-us/page.tsx",
+      "bytes": 199,
+      "sha256": "f4e7333c7ee69a2f9566c70474472f796f28829d7793be7f761864ddfcd817b8"
+    },
+    {
+      "path": "src/app/pages/facilities/page.tsx",
+      "bytes": 5707,
+      "sha256": "9e31ed29998c8a4e525be09cad88e52ec26d8b995db78181d0bba996196c97e8"
+    },
+    {
+      "path": "src/app/pages/fee-structure/page.tsx",
+      "bytes": 1526,
+      "sha256": "e4a7ffbda48199606e331244b0e86d9311665eb8ac19554c1f76a7b953ae5884"
+    },
+    {
+      "path": "src/app/pages/mandatory-disclosure/page.tsx",
+      "bytes": 1553,
+      "sha256": "92a3283b0187be3eb50d62221a13d865cd896b5a46c281c581c5700581ffcdaf"
+    },
+    {
+      "path": "src/app/pages/message-from-md/page.tsx",
+      "bytes": 3864,
+      "sha256": "d1c35174e119f51f3d8ce8b7ef203825fd867e7d61da21fc7264592fd0fde235"
+    },
+    {
+      "path": "src/app/pages/message-from-principal/page.tsx",
+      "bytes": 3183,
+      "sha256": "fcfd1d7b89f19c078bc8d9f5b4443dafda8d9786ea8fa59ecf611026126a7187"
+    },
+    {
+      "path": "src/app/pages/message-from-vice_principal/page.tsx",
+      "bytes": 3811,
+      "sha256": "45029a0fa38ec4290aa9caebe765e21a7534931b7aab42ac259609b31c340444"
+    },
+    {
+      "path": "src/app/pages/tc-format/page.tsx",
+      "bytes": 1531,
+      "sha256": "be9a7c52178ed966eea09fc1fb0806164afc397a5bae74709bfc54c9b4e64077"
+    },
+    {
+      "path": "src/app/robots.ts",
+      "bytes": 436,
+      "sha256": "e7a23dc7eb91e7bac304296587af5deb2a086d4139db51d3b0c79f5fe0856961"
+    },
+    {
+      "path": "src/app/sitemap.ts",
+      "bytes": 363,
+      "sha256": "6c907b8e3b4407e4d58d9c62e434735ea5bd4eafe85a82caf5f07475e7d68127"
+    },
+    {
+      "path": "src/app/template.tsx",
+      "bytes": 348,
+      "sha256": "f6c9353151402087da48fabc1ff0d53f5ee1eac47fbb3d3a9aa5493527cebc06"
+    },
+    {
+      "path": "src/components/admin/AdminDashboard.tsx",
+      "bytes": 8258,
+      "sha256": "c78dfb8e2dfee9ebf45e64033374b2c547c99e8b79ed5e5787a1c2875d7fd0a8"
+    },
+    {
+      "path": "src/components/admin/AdminShell.tsx",
+      "bytes": 7671,
+      "sha256": "509d5d1f2679d1549719a9703691036e22e16c5d92ed17b6fb800a89865b2a35"
+    },
+    {
+      "path": "src/components/admin/BackgroundManager.tsx",
+      "bytes": 13243,
+      "sha256": "25d7c69a0a31a151327af3d69392ffc0a36a5498f5733fd1ea75df82b892c836"
+    },
+    {
+      "path": "src/components/admin/CircularManager.tsx",
+      "bytes": 13441,
+      "sha256": "293d8f6bcd23ec8588d0c1c043f83b71ad65895c9c4d0e311916d3c9db128d69"
+    },
+    {
+      "path": "src/components/admin/ConfirmDialog.tsx",
+      "bytes": 1283,
+      "sha256": "d312d3a1ead1b4955cb671c8849a47810e54637d3b04693f35b8192a45893ec0"
+    },
+    {
+      "path": "src/components/admin/ContentStudio.tsx",
+      "bytes": 16061,
+      "sha256": "2fb091f8bc1a354bab14484ac4a183b7df40a559cbac0314688739558e771fce"
+    },
+    {
+      "path": "src/components/admin/DocumentsManager.tsx",
+      "bytes": 16082,
+      "sha256": "cdfb336bdb2d9a01304c682233ed073d1ea2a5aec6b1e03c9d1c39b9f48f995b"
+    },
+    {
+      "path": "src/components/admin/ImagePicker.tsx",
+      "bytes": 4573,
+      "sha256": "99c8a670dcc8f492980a9cdb779d89d8c9ff5656fccd40e085e8fd1fc03ecdfc"
+    },
+    {
+      "path": "src/components/admin/SectionsManager.tsx",
+      "bytes": 15993,
+      "sha256": "82ef840baa5790461a5de4621b4999306bade6b07408f53af17587f4555e6037"
+    },
+    {
+      "path": "src/components/public/CmsRuntime.tsx",
+      "bytes": 6873,
+      "sha256": "2ba2040a3f788e830a389a498e9565a3688b4a3d2a93a75fc28095822918f828"
+    },
+    {
+      "path": "src/components/public/DocumentLibrary.tsx",
+      "bytes": 2661,
+      "sha256": "ee56661650ade125157222c1eb7739ace90c5795898e45de280559f798aec39c"
+    },
+    {
+      "path": "src/components/public/about-us/AboutUs.tsx",
+      "bytes": 3390,
+      "sha256": "47baa182c4ab438be77810a90f9afa802328a46aba70dc85b2d4c4f67f4744b5"
+    },
+    {
+      "path": "src/components/public/aims-of-objectives/AimsOfObjectives.tsx",
+      "bytes": 2453,
+      "sha256": "18de489b873395de9eb985c737d4c5cfc30b46d306f70631731752593cba820a"
+    },
+    {
+      "path": "src/components/public/contact/Contact.tsx",
+      "bytes": 2528,
+      "sha256": "3daa5c44f785fc52d657b20eb63f5a9429f0521295ba76f44bf834509d58f1b7"
+    },
+    {
+      "path": "src/components/public/facilities/Facilities.tsx",
+      "bytes": 3506,
+      "sha256": "c7e9ddcc5df67538b84b510013ea05214bedb23315d13ef844aaba129ce8bf37"
+    },
+    {
+      "path": "src/components/public/home/Eduction-Md-Principal/EduImgShowcase.tsx",
+      "bytes": 1396,
+      "sha256": "34aa3083d62fc9b6711b4244ad736be9ccff6c0224ddf2e8059273918398f3ee"
+    },
+    {
+      "path": "src/components/public/home/Eduction-Md-Principal/EduPhotoGrid.tsx",
+      "bytes": 556,
+      "sha256": "9b3b36b30dcd74c5f920432ee3198521b9d98b3511b4b88ec8ad895411e61967"
+    },
+    {
+      "path": "src/components/public/home/Eduction-Md-Principal/EduPhotoTile.tsx",
+      "bytes": 1138,
+      "sha256": "fe02f14da17dc111225093cad1b3cd1428e3abfdecc180b78c28492559fa8049"
+    },
+    {
+      "path": "src/components/public/home/Eduction-Md-Principal/Message-Desk.tsx",
+      "bytes": 4057,
+      "sha256": "d142f3c77af7031b3214f06ca4982777e938390330197fb55d09188c67cb95df"
+    },
+    {
+      "path": "src/components/public/home/Eduction-Md-Principal/Prinicipal-Message.tsx",
+      "bytes": 4113,
+      "sha256": "d47ab80fc7e5418f25646a5ee204973cbc41254c7388bc311461b62a079fb91f"
+    },
+    {
+      "path": "src/components/public/home/HomeExperience.tsx",
+      "bytes": 13438,
+      "sha256": "b19f1ddee26c69a5851624f384cb90dca93c8a6ce69b55801fdd8a0af81252f3"
+    },
+    {
+      "path": "src/components/public/home/inforamation-events/event-card.tsx",
+      "bytes": 2655,
+      "sha256": "a35fa45768134949d1ed78e300799fd5044c1e8f2ab009f5ee1dd0889032a1ae"
+    },
+    {
+      "path": "src/components/public/home/inforamation-events/events-section.tsx",
+      "bytes": 2357,
+      "sha256": "afc92114dff7b7ef2f5bf92b2d749b6b0c57545daf20690bd5df0237c3dda6a4"
+    },
+    {
+      "path": "src/components/public/layout/Footer.tsx",
+      "bytes": 4983,
+      "sha256": "52b352888be1e7781f2d6e5b02d18b029b64d205c7bd9458f17dcb0458c51be8"
+    },
+    {
+      "path": "src/components/public/layout/Navbar.tsx",
+      "bytes": 9007,
+      "sha256": "be2598569df9341528050239b14b94db8eab46d65e667412dd69b4d4c61125bf"
+    },
+    {
+      "path": "src/components/shared/Container.tsx",
+      "bytes": 281,
+      "sha256": "2ed09c62fa97cff345a8321271580f6c1b05dbcfce4f1b1d8a49c6c19c092b21"
+    },
+    {
+      "path": "src/components/shared/MotionProvider.tsx",
+      "bytes": 213,
+      "sha256": "9978ab45d1c02bfcff3c120c015ea2be86fcd65be99b3b2fc8ec09aedd2fbe84"
+    },
+    {
+      "path": "src/components/shared/SiteChrome.tsx",
+      "bytes": 946,
+      "sha256": "f9cc504d7a58f1997539334a488b9450580a4bc2a07578469aec449e42974b0c"
+    },
+    {
+      "path": "src/lib/admin-auth.ts",
+      "bytes": 3829,
+      "sha256": "b338b34b775d3ebd075484eb64e3dcee92890a0e1b5b0fd058613d90a2c2b94c"
+    },
+    {
+      "path": "src/lib/background-types.ts",
+      "bytes": 896,
+      "sha256": "ecacf33d08cd9196f98ca7ab3c82a50878f1f15477f0450373e2967a1bb50332"
+    },
+    {
+      "path": "src/lib/circulars-utils.ts",
+      "bytes": 300,
+      "sha256": "ab7b9da5af7500cc9989e37b417fce192393ecef730630ab6cc9e0b18ae355ec"
+    },
+    {
+      "path": "src/lib/circulars.ts",
+      "bytes": 941,
+      "sha256": "072b67fb6ed43275ca9ede6ba1c6cfb8e1055578de415716a810b8f2f19d23d0"
+    },
+    {
+      "path": "src/lib/content/Edu-md-principal.ts",
+      "bytes": 618,
+      "sha256": "8dc4faa155d2473712b81ae1ea195e7a08e33f64342882e27e33f4eea24324b3"
+    },
+    {
+      "path": "src/lib/content/home.ts",
+      "bytes": 2709,
+      "sha256": "c01db53c65880a2e30949b27e4bcdef7e575df3ae8231c93e63296d025ea91ed"
+    },
+    {
+      "path": "src/lib/documents.ts",
+      "bytes": 1125,
+      "sha256": "94295990a3b41e08db7789d596c5527d08bf298a62f633352deea173024ebbbe"
+    },
+    {
+      "path": "src/lib/dynamic-sections.ts",
+      "bytes": 2359,
+      "sha256": "4535736977ef4a1c5cc06829080a5f921d60a27c5e5dcca14fb40b11a7cead35"
+    },
+    {
+      "path": "src/lib/media.ts",
+      "bytes": 5084,
+      "sha256": "1c1700039b5a0df9c406894262c18d02c69c5ee6292ac01a0425ebd9d757bf4c"
+    },
+    {
+      "path": "src/lib/public-pages.ts",
+      "bytes": 1181,
+      "sha256": "99b7f435009217698e479564cded052300c7ceb55ec344ff9d3ee1a298ac3c32"
+    },
+    {
+      "path": "src/lib/site-content.ts",
+      "bytes": 728,
+      "sha256": "f224fcaa5a7d4c619e03eb868795b2e2493947b7f257b44c001bad8a08842dc0"
+    },
+    {
+      "path": "src/proxy.ts",
+      "bytes": 1944,
+      "sha256": "09e798eb3703306b92093739b1eed488c35f44c9d14d659392483960f7e8b2d0"
+    },
+    {
+      "path": "src/server/config/auth.js",
+      "bytes": 4339,
+      "sha256": "dd97aa7ddbb545591dd51d45bececfda3f7136acd002435fdea597e1ef549cb5"
+    },
+    {
+      "path": "src/server/config/database.js",
+      "bytes": 2828,
+      "sha256": "11ddba06f83c26eedcfeb0bd362f8d55363f0d748f7bae72f7aaf6c1c0d8c5e4"
+    },
+    {
+      "path": "src/server/controller/auth.controller.js",
+      "bytes": 5370,
+      "sha256": "9144425e1393eb5d565adb945464a16907cb65d7b96ad2fbcc2e462513ce817b"
+    },
+    {
+      "path": "src/server/homepage-background.ts",
+      "bytes": 5616,
+      "sha256": "c5de58db0863657bd63a0938a24f7a4cb53554a0587415ebbebd5580f069e296"
+    },
+    {
+      "path": "src/server/http/api.ts",
+      "bytes": 1136,
+      "sha256": "db51830d151fccb6eeab2bcbed8200990814f3d533e09d9af55bf74f657a063a"
+    },
+    {
+      "path": "src/server/http/json.mjs",
+      "bytes": 1059,
+      "sha256": "ba99059e90fe18f520de33e5c1ec9bade95119574a81a5ff8c1787ccf4feb71d"
+    },
+    {
+      "path": "src/server/middleware/auth.middleware.js",
+      "bytes": 416,
+      "sha256": "4cac41e10d494f45f8109a4f1e3d364b4eef7e7b2d5dd8a1d8bcd3f602270b37"
+    },
+    {
+      "path": "src/server/model/auth.model.js",
+      "bytes": 1459,
+      "sha256": "22010ad2134e5c246b603ce63b0fcd2c872074da2630c69385ffb4e307051577"
+    },
+    {
+      "path": "src/server/route-adapter.js",
+      "bytes": 366,
+      "sha256": "1935d5301fc7a05abbafe738cdac6d6c7a8c1acf8075e0351326ee4ea3af3ad5"
+    },
+    {
+      "path": "src/server/util/error.js",
+      "bytes": 532,
+      "sha256": "aad8608f64d5b5c710d9f41e994e11188ec00f660017ced3bf4ae7c34b7ab6d7"
+    },
+    {
+      "path": "src/server/util/media-policy.mjs",
+      "bytes": 1383,
+      "sha256": "437c3c349e6c65f955f14a4480b7ef110230a2d1ecc5c16a98825e717d9f1613"
+    },
+    {
+      "path": "src/server/util/media-retention.mjs",
+      "bytes": 3195,
+      "sha256": "0e6e4fef7031a5e82589eb8475d258becc6ad5d782fb65b7fde7b80c66789f07"
+    },
+    {
+      "path": "src/server/util/provisionAdmin.js",
+      "bytes": 1779,
+      "sha256": "0d744199041ff8919745e97b13c6b62452c2a5073c580947eeeed132f48fc7e6"
+    },
+    {
+      "path": "src/server/util/validation.mjs",
+      "bytes": 3592,
+      "sha256": "c33271216cc3b34c5b55bfff48463437bb03587bee61cc7a318aeb4ccda0581d"
+    },
+    {
+      "path": "tests/admin-password.test.mjs",
+      "bytes": 640,
+      "sha256": "5c9f934a85584b68dc33b8ac9586b5c86acbd41d62685a66f4283203431d74d5"
+    },
+    {
+      "path": "tests/admin-seed-policy.test.mjs",
+      "bytes": 1058,
+      "sha256": "dab97631e9418fb60234144bcca1a7020afa68927eaa4a3d0063d7ac97ffe406"
+    },
+    {
+      "path": "tests/admin-seed.test.mjs",
+      "bytes": 2375,
+      "sha256": "542c55180e930b077d7d71ef4d3dd7060d002f6f1a07ffeceef62526cf5a62eb"
+    },
+    {
+      "path": "tests/helpers/create-test-certificate.ps1",
+      "bytes": 1925,
+      "sha256": "3a83902f564fbba21753ec5fe00b9899e0bdc6f7cb17b10c7e194f10d5c15eb3"
+    },
+    {
+      "path": "tests/helpers/dashboard-browser.mjs",
+      "bytes": 35643,
+      "sha256": "38a53c9a420757ec5210e286d408ce6e4d4eec21c2cd8a549fb4843183a92352"
+    },
+    {
+      "path": "tests/json-input.test.mjs",
+      "bytes": 804,
+      "sha256": "38096728c3f110458bbdb0137bfe352252b22e637b291603fff3d8c116f620c9"
+    },
+    {
+      "path": "tests/jwt.test.mjs",
+      "bytes": 1047,
+      "sha256": "2e08304bc760fbb7a8b3e3bedceead8268966b29a54208727730cab8053db02c"
+    },
+    {
+      "path": "tests/legacy/admin-integration.mjs",
+      "bytes": 17312,
+      "sha256": "a93f50cc2f5225db82ff36ce98bd24bdcd0fdd619c8ee5886f9f1afd1649c8a7"
+    },
+    {
+      "path": "tests/legacy/admin-password.test.mjs",
+      "bytes": 1280,
+      "sha256": "8b16e7c1dcd1ee85711e00832ac617ac46b701398c86127b11fea4bd245b3aee"
+    },
+    {
+      "path": "tests/legacy/admin-seed.test.mjs",
+      "bytes": 2430,
+      "sha256": "6e76869947681c52a9bec4f1e1283afc17864ee3333868404d15290027e29441"
+    },
+    {
+      "path": "tests/legacy/dashboard-integration.mjs",
+      "bytes": 29653,
+      "sha256": "259395e1f66fdaea34d2850ef949c793ff36adfffaabcbf159a027469e940977"
+    },
+    {
+      "path": "tests/legacy/development-integration.mjs",
+      "bytes": 3672,
+      "sha256": "7abd69e54f1a271157f153488df69c1c6f2f1426f52b11b5215c7a45afe1885d"
+    },
+    {
+      "path": "tests/legacy/jwt.test.mjs",
+      "bytes": 4250,
+      "sha256": "7e4f6b7a04b6441da79fdb45836b69cdd16891f1ec455ca215a538b327f7cf1b"
+    },
+    {
+      "path": "tests/legacy/mongo-connection.test.mjs",
+      "bytes": 2257,
+      "sha256": "ba74c64a788bdbdbc7b83c5abc38cafd199560ff0d251d4ca2fd0869fbc636e1"
+    },
+    {
+      "path": "tests/legacy/proxy-integration.mjs",
+      "bytes": 13021,
+      "sha256": "4daf21be8ff40d5475a80491251fd478e2d23f762c96c895e26bab11eddc58e7"
+    },
+    {
+      "path": "tests/legacy/source-audit.test.mjs",
+      "bytes": 4780,
+      "sha256": "9a4ca2a016657ccf95d9af73589e25a1577da258413ce54c7db0bbcf27bcc83e"
+    },
+    {
+      "path": "tests/media-policy.test.mjs",
+      "bytes": 1731,
+      "sha256": "d7e8603d706c435918fd6f1d91f8c97f5a7bbb62b4886afdb0a1fd4375c7fd34"
+    },
+    {
+      "path": "tests/mongo-connection.test.mjs",
+      "bytes": 1036,
+      "sha256": "00681e8ec74dd0f3ef810426d5fb691e101259bd2b3de351deaed38d560b677e"
+    },
+    {
+      "path": "tests/security-routes.test.mjs",
+      "bytes": 1849,
+      "sha256": "84f373eef8993f79459cea7eb7287ab47f31dd4f30455ce44cc34e5ba05740a3"
+    },
+    {
+      "path": "tests/source-audit.test.mjs",
+      "bytes": 1508,
+      "sha256": "32013d2240ce88392ca4e29b5ccdc012c96ee1e65c4e3bce81bad4a58b9efec0"
+    },
+    {
+      "path": "tsconfig.json",
+      "bytes": 736,
+      "sha256": "56aeda2ae0cbcbda998078973351651d5a5b7988a41be897f96702022df8b070"
+    }
+  ]
+}

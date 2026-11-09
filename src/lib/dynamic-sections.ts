@@ -17,6 +17,7 @@ export type HomeSlide = {
   backgroundPosition?: BackgroundPosition | null;
   backgroundRevision?: number;
   previousBackground?: BackgroundImage;
+  previousBackgroundExpiresAt?: Date;
 };
 export type EditableEvent = SchoolEvent & { isPublished?: boolean; displayOrder?: number };
 export async function getHomeSlides(): Promise<HomeSlide[]> {

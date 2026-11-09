@@ -12,6 +12,7 @@ import {
   updateHomepageBackground,
 } from "@/src/server/homepage-background";
 import { isSafeImageReference } from "@/src/lib/background-types";
+import { retireMediaReference } from "@/src/server/util/media-retention.mjs";
 export const runtime = "nodejs";
 const kinds = {
   slides: { collection: "homeSlides", key: "id" },
@@ -161,6 +162,7 @@ async function handlePATCH(request: Request, ctx: { params: Promise<{ kind: stri
       src: active?.slideId === id ? active.src : before.src,
       position: before.backgroundPosition ?? null,
     };
+    update.previousBackgroundExpiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
     update.backgroundRevision = (before.backgroundRevision || 0) + 1;
   }
   const filter = {
@@ -187,6 +189,10 @@ async function handlePATCH(request: Request, ctx: { params: Promise<{ kind: stri
       { error: "This item changed elsewhere. Reload and try again." },
       { status: 409 },
     );
+  const previousImage = kind === "slides" ? before.src : before.image;
+  const nextImage = kind === "slides" ? item.src : item.image;
+  if (previousImage && previousImage !== nextImage)
+    await retireMediaReference(previousImage).catch(() => {});
   revalidatePath("/");
   return NextResponse.json({ item });
 }
@@ -217,8 +223,10 @@ async function handleDELETE(request: Request, ctx: { params: Promise<{ kind: str
       );
     }
   }
-  const result = await db.collection(t.collection).deleteOne({ [t.key]: id });
-  if (!result.deletedCount) return NextResponse.json({ error: "Item not found." }, { status: 404 });
+  const removed = await db.collection(t.collection).findOneAndDelete({ [t.key]: id });
+  if (!removed) return NextResponse.json({ error: "Item not found." }, { status: 404 });
+  for (const src of [removed.src, removed.image, removed.previousBackground?.src])
+    if (src) await retireMediaReference(src).catch(() => {});
   revalidatePath("/");
   return NextResponse.json({ ok: true });
 }

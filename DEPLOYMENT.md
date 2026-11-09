@@ -1,3 +1,5 @@
+> **2026 Admin update:** See `docs/RED_ROSE_ADMIN_SETUP.md` before following this guide. The original Red Rose username/scrypt seed is retired.
+
 # Red Rose Academy: Hetzner Ubuntu deployment
 
 These are operator instructions. No live VPS was accessed or deployed to during the audit.
@@ -53,11 +55,9 @@ sudoedit /etc/red-rose-academy.env
 ```
 
 Set `MONGODB_URI` to an authenticated connection with access only to this school's
-database, `MONGODB_DATABASE=red_rose_academy`, `ADMIN_USERNAME`, `ADMIN_PASSWORD`,
-`APP_ORIGIN=https://YOUR_REAL_DOMAIN`, `JWT_SECRET`, `JWT_ISSUER=red-rose-academy`,
-`JWT_AUDIENCE=red-rose-admin`, `TRUST_PROXY=true`, and `PROXY_SHARED_SECRET`.
-Use the same issuer, audience and secret on every application instance. `ADMIN_JWT_SECRET`
-is obsolete and is never a fallback. Do not use a `NEXT_PUBLIC_` prefix.
+database **named inside MONGODB_URI** (for example `/red_rose_academy`),
+`APP_ORIGIN=https://YOUR_REAL_DOMAIN`, `JWT_SECRET`, `TRUST_PROXY=true`, and `PROXY_SHARED_SECRET`.
+Set `ADMIN_INITIAL_EMAIL`, `ADMIN_INITIAL_NAME`, and `ADMIN_INITIAL_PASSWORD` privately only during seed. Do not reuse the database or private credentials from St. Mary's. Never use `NEXT_PUBLIC_` for secrets.
 
 Generate each secret separately and paste its output directly into the private file:
 
@@ -65,11 +65,13 @@ Generate each secret separately and paste its output directly into the private f
 /opt/red-rose-node/bin/node -e 'process.stdout.write(require("node:crypto").randomBytes(64).toString("base64url"))'
 ```
 
-This operator-only command intentionally displays a new secret; do not run it in shared
-logs. Use at least 32 random bytes encoded as base64url, not a sentence. Use a separate
-random administrator password of 20–256 characters. Changing the environment password
-does not reset an existing account. Set `NODE_ENV=production` in the service, not in the
-developer's `.env.local`.
+This operator-only command displays a new secret: keep its output private. Seed credentials
+are read from `ADMIN_INITIAL_EMAIL`, `ADMIN_INITIAL_NAME` and `ADMIN_INITIAL_PASSWORD` in the private production
+environment, and should be removed after running `npm run seed:admin`. The name must be
+1–12 characters. Red Rose explicitly requires a password of exactly eight printable
+ASCII characters including uppercase, lowercase, digit and symbol. This shorter
+password is a security compromise; keep rate-limiting and TLS mandatory. Set
+`NODE_ENV=production` in the service, not in your developer `.env.local`.
 
 For managed MongoDB, allow only the VPS/private network, enable TLS, create an application
 user scoped to `red_rose_academy`, and enable provider backups. For a dedicated local MongoDB,
@@ -99,15 +101,17 @@ For the first migration from opaque sessions, use the verified backup directory:
 ```bash
 cd "/srv/red-rose-academy/releases/$RELEASE"
 sudo env BACKUP_ROOT=/var/backups/red-rose-academy BACKUP_ENV_FILE=/etc/red-rose-academy.env /opt/red-rose-node/bin/node --env-file=/etc/red-rose-academy.env scripts/backup-database.mjs
-# Substitute the actual newly printed backup directory in each following command.
+# Substitute the actual newly printed backup directory in the next command.
 sudo /opt/red-rose-node/bin/node --env-file=/etc/red-rose-academy.env scripts/verify-backup.mjs /var/backups/red-rose-academy/VERIFIED_BACKUP
-sudo /opt/red-rose-node/bin/node --env-file=/etc/red-rose-academy.env scripts/migrate-jwt-sessions.mjs /var/backups/red-rose-academy/VERIFIED_BACKUP
-sudo /opt/red-rose-node/bin/node --env-file=/etc/red-rose-academy.env scripts/seed-admin.mjs
+# Temporarily set ADMIN_INITIAL_EMAIL and ADMIN_INITIAL_PASSWORD in the private env file.
+sudo -u redrose /opt/red-rose-node/bin/node --env-file=/etc/red-rose-academy.env scripts/seed-admin.mjs
+# Remove the two ADMIN_INITIAL_* credentials from the env file after provisioning.
 ```
 
-The normal admin seed preserves existing passwords. Do not run `db:seed` or
-`--reset-password` as part of a normal deployment. The reset flag is a deliberate
-password operation that increments the account version and marks old sessions revoked.
+Admin seed is now non-interactive and uses `ADMIN_INITIAL_EMAIL` / `ADMIN_INITIAL_PASSWORD`.
+Run `scripts/seed-admin.mjs --reset-password` only to intentionally reset an existing active
+admin. Older `admins` / `adminSessions` data remains in the database but is not a login source.
+This is a breaking authentication migration: verify backup and rehearse it in staging.
 
 ## 4. Run the application on loopback with systemd
 
@@ -238,3 +242,28 @@ PDF previews/download byte ranges, image persistence after service restart, site
 canonical URLs, mobile layout, and browser console. Test SSH/service reboot recovery,
 MongoDB access control, firewall reachability and backup restoration. No production
 release is accepted until these environment-specific checks pass.
+
+## Uploaded media cleanup timer (required for automatic seven-day deletion)
+
+Old GridFS images/PDFs are marked during admin replacement. The cleanup job
+removes them **only if not referenced anywhere** and after seven days; a
+separate expiry ends the homepage background's seven-day rollback option.
+No file in the original `public/` folder is deleted. Without the timer the
+job does not run by itself. Review and test on staging before enabling.
+
+```bash
+# After deploying the release to /srv/red-rose-academy/current
+# and configuring /etc/red-rose-academy.env as described above:
+sudo cp deploy/red-rose-media-cleanup.service /etc/systemd/system/
+sudo cp deploy/red-rose-media-cleanup.timer /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable --now red-rose-media-cleanup.timer
+sudo systemctl list-timers red-rose-media-cleanup.timer
+# Optional manual dry run in production, with the private env file loaded:
+sudo -u redrose /opt/red-rose-node/bin/node --env-file=/etc/red-rose-academy.env scripts/cleanup-media.mjs --dry-run
+```
+
+The service runs under the existing `redrose` account and uses the same
+production environment and database as the website. It is configured for a
+daily run after 03:15 server-local time. Back up the database and all uploaded
+GridFS files before introducing permanent deletion.

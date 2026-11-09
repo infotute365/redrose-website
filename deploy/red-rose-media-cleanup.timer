@@ -1,0 +1,11 @@
+[Unit]
+Description=Run Red Rose GridFS retention cleanup daily
+
+[Timer]
+OnCalendar=*-*-* 03:15:00
+Persistent=true
+RandomizedDelaySec=5m
+Unit=red-rose-media-cleanup.service
+
+[Install]
+WantedBy=timers.target

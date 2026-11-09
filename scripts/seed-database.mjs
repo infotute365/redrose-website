@@ -1,11 +1,11 @@
+import nextEnv from "@next/env";
+nextEnv.loadEnvConfig(process.cwd(), process.env.NODE_ENV !== "production");
 import { readFile } from "node:fs/promises";
-import { MongoClient } from "mongodb";
+import mongoose from "mongoose";
+import { getDatabase } from "../src/server/config/database.js";
 import path from "node:path";
-import { readSeedConfiguration, reportAdminSeed, seedAdmin } from "./lib/admin-seed.mjs";
 
-// First run: npm run db:seed. Password reset requires explicit --reset-password.
-const reset = process.argv.includes("--reset-password");
-let client;
+// First run: npm run db:seed. Administrator provisioning is handled by seed:admin.
 async function initialJson(name) {
   try {
     return JSON.parse(await readFile(path.join(process.cwd(), "public", "uploads", name), "utf8"));
@@ -15,11 +15,7 @@ async function initialJson(name) {
   }
 }
 try {
-  const configuration = readSeedConfiguration();
-  client = new MongoClient(configuration.uri, { serverSelectionTimeoutMS: 8000 });
-  await client.connect();
-  const db = client.db(configuration.databaseName);
-  reportAdminSeed(await seedAdmin(db, { ...configuration, resetPassword: reset }));
+  const db = await getDatabase();
   await db.collection("siteContent").updateOne(
     { key: "public" },
     {
@@ -86,5 +82,7 @@ try {
   );
   process.exitCode = 1;
 } finally {
-  await client?.close();
+  await mongoose.disconnect().catch(() => {
+    process.exitCode = 1;
+  });
 }

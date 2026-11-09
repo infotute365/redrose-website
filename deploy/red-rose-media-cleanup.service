@@ -1,0 +1,19 @@
+[Unit]
+Description=Red Rose Academy GridFS image and PDF cleanup
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=redrose
+Group=redrose
+WorkingDirectory=/srv/red-rose-academy/current
+Environment=NODE_ENV=production
+EnvironmentFile=/etc/red-rose-academy.env
+ExecStart=/opt/red-rose-node/bin/node /srv/red-rose-academy/current/scripts/cleanup-media.mjs
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+UMask=0077
+SyslogIdentifier=red-rose-cleanup

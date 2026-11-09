@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { guardMutation } from "@/src/lib/admin-auth";
 import { getDatabase } from "@/src/server/config/database";
 import { MediaValidationError, saveMedia } from "@/src/lib/media";
+import { retireMediaReference } from "@/src/server/util/media-retention.mjs";
 import { isDatabaseFailure } from "@/src/server/http/api";
 import type { Circular } from "@/src/lib/circulars";
 export const runtime = "nodejs";
@@ -137,9 +138,13 @@ async function handleDELETE(request: Request) {
     return NextResponse.json({ error: "Invalid body." }, { status: 400 });
   if (typeof body.id !== "string" || !/^[\w-]{1,100}$/.test(body.id))
     return NextResponse.json({ error: "Valid ID required." }, { status: 400 });
-  const result = await (await getDatabase()).collection("circulars").deleteOne({ id: body.id });
-  if (!result.deletedCount)
-    return NextResponse.json({ error: "Circular not found." }, { status: 404 });
+  const removed = await (
+    await getDatabase()
+  )
+    .collection<Circular>("circulars")
+    .findOneAndDelete({ id: body.id });
+  if (!removed) return NextResponse.json({ error: "Circular not found." }, { status: 404 });
+  if (removed.pdfUrl) await retireMediaReference(removed.pdfUrl).catch(() => {});
   refresh();
   return NextResponse.json({ success: true });
 }

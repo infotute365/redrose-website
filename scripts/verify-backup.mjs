@@ -1,4 +1,7 @@
+import nextEnv from "@next/env";
+nextEnv.loadEnvConfig(process.cwd(), process.env.NODE_ENV !== "production");
 import { BSON, MongoClient } from "mongodb";
+import { readDatabaseConfiguration } from "./lib/mongo-client.mjs";
 import { createHash, randomUUID } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
@@ -48,8 +51,9 @@ if (
   const temporaryName = `red_rose_restore_test_${randomUUID().replaceAll("-", "")}`;
   let client;
   try {
-    const collections = await readVerifiedBackup(process.argv[2], process.env.MONGODB_DATABASE);
-    client = new MongoClient(process.env.MONGODB_URI, { serverSelectionTimeoutMS: 8000 });
+    const { uri, databaseName } = readDatabaseConfiguration();
+    const collections = await readVerifiedBackup(process.argv[2], databaseName);
+    client = new MongoClient(uri, { serverSelectionTimeoutMS: 8000 });
     await client.connect();
     const db = client.db(temporaryName);
     for (const entry of collections) {

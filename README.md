@@ -2,42 +2,33 @@
 
 Next.js 16 / React 19 / TypeScript / MongoDB, using the original `red-rose.zip` school logo, school photographs, leadership messages, facilities content and public routes.
 
-## What changed
+## What changed (St. Mary's Guwahati Club alignment)
 
-- The existing approved public design is preserved, including the latest forest/ivory homepage palette and 90svh first fold.
-- Original pictures and text remain in the source and render as defaults. The public homepage retains all original content sections.
-- Dynamic visual editor: edit text and replace an image on each listed public page, header and footer through an authenticated admin page. The edits are saved in MongoDB without changing original source files.
-- MongoDB collections: `admins`, `adminSessions`, `loginLimits`, `siteContent`, `documents`, `circulars`, `seedStates`, and `media.files`/`media.chunks` via GridFS.
-- Circulars and school documents are stored in MongoDB; new media is held in GridFS with signature/type checks and size limits.
-- Admin login has signed JWT cookies with database-backed revocation, password hashing (scrypt), persistent login throttling, origin checking and admin-required mutations. No website can guarantee absolute security.
+- Red Rose keeps its original design, text, images, PDFs, school logo, public routes and CMS. The 34 original `public/` files are protected by a SHA-256 manifest.
+- Admin setup now uses the SAME path/naming pattern as St. Mary's: `scripts/seed-admin.mjs`, `src/server/util/provisionAdmin.js`, `src/server/model/auth.model.js`, `src/server/config/database.js`, `src/server/config/auth.js`, `src/server/controller/auth.controller.js`, `src/server/middleware/auth.middleware.js`.
+- MongoDB is connected through **Mongoose**; the existing Red Rose CMS collections and GridFS continue using that same MongoDB connection. The name `red_rose_academy` comes from the **MONGODB_URI** path. St. Mary's school database must never be used here.
+- The admin is stored in the `auths` collection (Mongoose model `Auth`), login is via **email** and a bcrypt-hashed strong password, role is `super-admin`, and reset requires an explicit `--reset-password` flag.
+- Auth uses a 15-minute HttpOnly JWT access cookie and a seven-day rotating HttpOnly refresh cookie. `src/app/api/admin/refresh/route.ts` refreshes active editors. Existing protected CMS routes retain server-side authentication, Origin checks and MongoDB-backed login limits.
+- Existing school content uses `siteContent`, `documents`, `circulars`, `seedStates`, `schoolEvents`, `homeSlides` and `media.files` / `media.chunks`. The retired `admins` and `adminSessions` collections are **not** automatically deleted or converted.
+- Frontend still uses Next.js 16 and React/TypeScript, rather than the older St. Mary's Next.js 15 frontend. Only the requested admin/seed/database/backend layout is aligned, not the whole public website.
 
 ## Local setup
 
-1. Use patched Node.js LTS (24.22.2 was verified for this audit), MongoDB and install dependencies with `npm ci`.
-2. Copy `.env.example` to `.env.local` and set a unique, randomly generated `ADMIN_PASSWORD` of 20-256 characters. Keep this file private. `ADMIN_USERNAME` is the login identifier; this application does not use an administrator email field.
-3. Run `npm run auth:configure` to generate missing private JWT/proxy secrets, then `npm run seed:admin` to provision only the administrator. For a new, empty school database, also run `npm run db:seed` to initialize the original documents, circulars, events, slides and content record.
-4. Start with `npm run dev` then open `http://localhost:3000` and `http://localhost:3000/admin/login`.
-5. Admin dashboard: `/admin/dashboard`. Visual website editor: `/admin/editor`.
+1. Install Node.js 22.14+ and MongoDB; run `npm ci`.
+2. Copy `.env.example` to `.env.local`. Set `MONGODB_URI=mongodb://127.0.0.1:27017/red_rose_academy`, `APP_ORIGIN=http://localhost:3000`, a strong `JWT_SECRET`, `ADMIN_INITIAL_EMAIL` and `ADMIN_INITIAL_PASSWORD`. Never use St. Mary's database URI or share secrets between schools.
+3. Run `npm run seed:check` to find missing configuration values, then `npm run seed:admin`. The admin is created only if no admin already exists in the new `auths` model.
+4. To deliberately reset an existing **active** admin, set the same `ADMIN_INITIAL_EMAIL` and a new strong password, then run `npm run seed:admin -- --reset-password`. All previous sessions will be invalidated. Normal reruns do not reset the password.
+5. Remove `ADMIN_INITIAL_EMAIL` and `ADMIN_INITIAL_PASSWORD` from `.env.local` after seeding, retaining them only temporarily for deliberate resets. Keep them out of version control.
+6. If this is a new school database, run `npm run db:seed` to initialize Red Rose school content. This command is separate from `seed:admin`.
+7. Run `npm run dev`, open `http://localhost:3000/admin/login`, and sign in with the email/password you seeded. Use exactly the hostname configured in `APP_ORIGIN` (`localhost` is different from `127.0.0.1`).
 
-The public homepage can run from preserved static content with no MongoDB configured for preview; the admin dashboard requires a working MongoDB connection.
+The public website can render its original content without the database, but the admin and dynamic content need a live MongoDB connection. For Red Rose, the initial admin name (`ADMIN_INITIAL_NAME`) must be 1–12 characters and the initial password must be exactly 8 printable ASCII characters with uppercase, lowercase, number and symbol. Eight characters is weaker than recommended for production; keep login rate limits enabled. MongoDB data, PDF files and original assets are not reset by `seed:admin`.
 
-### Seed behavior
+### Administration verification
 
-`npm run seed:admin` loads `.env.local` and writes only administrator records. It uses the same salted scrypt format as login. Repeated runs preserve passwords, permissions and sessions. A unique username index and a fixed initial account ID prevent duplicate first accounts even during simultaneous runs. An already-provisioned database with another username is left alone.
+Run `npm run test:security`, `npm run lint`, `npx tsc --noEmit` and `npm run build` after installing dependencies. The `test:admin` script runs the new unit tests for admin provisioning, passwords, JWT claims and URI parsing; it does **not** substitute for a full end-to-end MongoDB test. The prior username/scrypt/JWT-session tests are retained in `tests/legacy/` but are not valid for the new architecture. Perform live admin login/logout, refresh, upload and CRUD tests on a staging database before deployment.
 
-`npm run db:seed` remains available for school initialization: it reuses the same admin provisioning helper and preserves existing website edits and seed-once original records.
-
-To explicitly reset the existing admin password, set a new password in `.env.local`, then run `npm run seed:admin -- --reset-password`. This increments the session version and revokes old sessions without seeding school content. The existing `npm run db:seed -- --reset-password` command remains supported.
-
-Authentication uses jose HS256 JWTs in HttpOnly, SameSite Strict cookies (Secure in production). Tokens expire after eight hours and include issuer, audience, stable administrator database ID, session version, role and a random session identifier. Every private request also checks the MongoDB session and the account's current active status, role and version. Logout revokes the server record; password reset increments the version and marks sessions revoked. Legacy opaque cookies are rejected. `JWT_SECRET` must contain at least 32 random bytes encoded as base64url. `ADMIN_JWT_SECRET` is obsolete. JWTs are never returned in JSON or stored in localStorage. Set `MONGODB_DATABASE` explicitly and leave `NODE_ENV` unset in development configuration.
-
-Behind Nginx, set `TRUST_PROXY=true` and use the same private `PROXY_SHARED_SECRET` in its header-overwrite snippet. `APP_ORIGIN` is the exact public HTTPS origin. Direct development ignores forwarded IP headers and shares a conservative IP rate-limit bucket.
-
-### Admin verification
-
-Run `npm run test:security`, `npm run lint`, `npx tsc --noEmit`, and `npm run build`. With the local server running, `npm run test:admin` exercises real MongoDB seeding, password preservation, concurrent provisioning, protected APIs, login/logout, cookie flags, session expiry, media upload/download, rate limiting and browser-bundle secret checks. It uses a dedicated temporary database for reset/concurrent seed checks and deletes only its own test records. School content and real administrator credentials are preserved.
-
-For `npm start -- --port 3001`, set `ADMIN_TEST_ORIGIN=http://localhost:3001`, `ADMIN_TEST_SECURE=true`, and `ADMIN_TEST_STATIC_DIR=.next/static` in the test process before running `npm run test:admin`. These variables are test settings, not application secrets. See `ADMIN_SETUP_REPORT.md` for the local setup and verification results.
+**Existing database warning:** Older Red Rose `admins` / `adminSessions` credentials are no longer used. Make a verified backup before deploying this auth change; seed the new admin using the private email/password fields. This is a **breaking authentication migration**, not a silent credential migration.
 
 ### Admin workspace and homepage background
 
@@ -53,7 +44,7 @@ The content editor groups text and images by page/header/footer, uses friendly l
 
 **Production storage:** MongoDB holds both records and uploaded bytes. Use a persistent MongoDB volume or a managed MongoDB service with backups. Every VPS, Docker replica or application instance must use the same database and GridFS bucket. Runtime writes to `public/` or an application's container filesystem are not used for these uploads. Next.js image caches may be ephemeral and can be regenerated from GridFS. Configure the reverse proxy to accept the allowed upload sizes. Deploy dependencies with the native Sharp build for the server platform (`npm ci`); Sharp was already part of Next.js and is now explicitly declared because the upload pipeline uses it.
 
-After `npm run build`, run `npm run test:dashboard` for an isolated production-server/MongoDB/browser regression suite. It clones school records into a uniquely named temporary database, creates a test-only administrator, checks the real forms and media pipeline, restarts its own server to verify persistence, and cleans up its database and processes. It does not edit `.env.local`, run a reset, or use ports 3000/3001. A local Chromium browser is auto-detected; set `ADMIN_TEST_BROWSER_PATH` if needed. If unavailable, the browser portion is explicitly reported as skipped. See `ADMIN_DASHBOARD_REPORT.md` for the implementation and results.
+The older dashboard browser integration suite was written for the retired username/scrypt login system. It remains under `tests/legacy/`, but must be adapted before it can be used for regression testing with the new admin model.
 
 ### Editing website content
 
@@ -78,10 +69,6 @@ The **Photos & Events** admin page allows create/edit/hide/delete operations on 
 ## Existing document updates
 
 Admin can upload new documents, change document titles, delete document records, and replace an uploaded PDF or image. New and replaced document records use permanent `/api/documents/<id>/file` links so later replacement doesn't require changing the published link. Existing legacy public static document URLs are kept as originally uploaded until their record is replaced (their prior static URLs continue to point to the original file).
-
-## Preview
-
-`design-preview/index.html` is a **static design preview** with copied original school assets; it is not a running Next.js instance and does not demonstrate the admin API. `design-preview/preview.png` is the visual design board.
 
 ### Security headers
 
@@ -113,15 +100,9 @@ New public pages: `/gallery` uses published slides and school events; `/circular
 lists published circulars with original titles/descriptions and any linked PDFs.
 The notice panel shows an empty state until the admin publishes circulars.
 
-`design-preview/index.html` and `design-preview/preview.png` are _static,
-non-interactive visual previews_, not proof of an operational server build.
+## Production deployment
 
-## Production audit and deployment
-
-See [PRODUCTION_READINESS_REPORT.md](PRODUCTION_READINESS_REPORT.md) for current findings,
-tests and limitations, and [DEPLOYMENT.md](DEPLOYMENT.md) for the dedicated systemd/Nginx
-deployment procedure. Older reports describe earlier point-in-time implementations and
-are superseded for authentication and CSP.
+See [DEPLOYMENT.md](DEPLOYMENT.md) for the dedicated systemd/Nginx deployment procedure.
 
 Use `npm run format` and `npm run format:check` for the required Prettier style. Security,
 dashboard, development and local Nginx/TLS checks are available through `test:security`,
@@ -131,3 +112,17 @@ binary; browser checks report a skip when no Chromium browser is available.
 If `npm run dev` says another Next server already owns this project, use its displayed
 URL. A second development process exits to protect the shared build directory. Stop
 the identified project server before starting a replacement; do not kill every Node process.
+
+## Seven-day uploaded media cleanup
+
+When an administrator replaces/removes an uploaded image or PDF, the old GridFS
+file is marked for deletion **seven days later**. A daily cleanup job checks
+all references before deleting the complete GridFS file and its chunks. The
+old homepage background can be restored within the same seven-day window.
+The cleanup only touches managed `/api/media/<id>` files, **never** original
+photos or PDFs stored in `public/`. New, unused uploads also expire.
+
+Dry run: `npm run media:cleanup -- --dry-run`; real run: `npm run media:cleanup`.
+**Automatic** daily deletion requires enabling the bundled systemd timer on
+the production VPS (see `DEPLOYMENT.md`). Without the timer, files are only
+marked and are not removed automatically. Take a verified backup first.

@@ -7,27 +7,30 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "db:seed": "node --env-file=.env.local scripts/seed-database.mjs",
-    "seed:admin": "node --env-file=.env.local scripts/seed-admin.mjs",
-    "test:admin": "node --env-file=.env.local --test tests/admin-integration.mjs",
-    "test:dashboard": "node --env-file=.env.local --test tests/dashboard-integration.mjs",
+    "db:seed": "node ./scripts/seed-database.mjs",
+    "seed:admin": "node ./scripts/seed-admin.mjs",
+    "test:admin": "node --test tests/admin-seed.test.mjs tests/admin-password.test.mjs tests/jwt.test.mjs tests/mongo-connection.test.mjs tests/admin-seed-policy.test.mjs tests/media-policy.test.mjs tests/security-routes.test.mjs",
     "test:security": "node --test tests/*.test.mjs",
-    "test:proxy": "node --env-file=.env.local --test tests/proxy-integration.mjs",
-    "test:development": "node --env-file=.env.local --test tests/development-integration.mjs",
     "auth:configure": "node scripts/configure-auth.mjs",
-    "db:backup": "node --env-file=.env.local scripts/backup-database.mjs",
+    "db:backup": "node ./scripts/backup-database.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "verify:production": "node scripts/verify-production.mjs"
+    "verify:production": "node scripts/verify-production.mjs",
+    "seed:check": "node scripts/check-seed-config.mjs",
+    "media:cleanup": "node ./scripts/cleanup-media.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
+    "@next/env": "^15.5.28",
+    "bcrypt": "^6.0.0",
     "class-variance-authority": "^0.7.1",
     "cn": "^0.5.0",
     "framer-motion": "^14.9.0",
     "jose": "6.2.15",
+    "jsonwebtoken": "^9.0.2",
     "lucide-react": "^1.61.0",
     "mongodb": "^7.8.0",
+    "mongoose": "^8.18.0",
     "next": "16.4.5",
     "react": "19.3.0",
     "react-dom": "19.3.0",
@@ -45,5 +48,9 @@
     "shadcn": "4.23.0",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=22.14.0 <25"
   }
 }

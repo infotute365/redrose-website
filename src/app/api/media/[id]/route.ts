@@ -63,7 +63,9 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
         "Content-Length": String(end - start),
         "Accept-Ranges": "bytes",
         ...(status === 206 ? { "Content-Range": `bytes ${start}-${end - 1}/${length}` } : {}),
-        "Cache-Control": "public, max-age=31536000, immutable",
+        // Images/PDFs can be retired seven days after replacement; do not cache
+        // their public download response as immutable for a full year.
+        "Cache-Control": "public, max-age=3600, must-revalidate",
         "X-Content-Type-Options": "nosniff",
         "Content-Disposition": `${mime === "application/octet-stream" ? "attachment" : "inline"}; filename="${filename}"`,
         "Content-Security-Policy": "default-src 'none'; sandbox",

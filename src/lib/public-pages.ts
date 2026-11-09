@@ -1,4 +1,4 @@
-import { readAppOrigin } from "@/src/server/config/auth.mjs";
+import { readAppOrigin } from "@/src/server/config/auth.js";
 
 export const publicPages: Record<string, string> = {
   "/": "Red Rose Academy",

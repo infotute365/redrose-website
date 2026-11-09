@@ -1,62 +1,42 @@
 import { createHash } from "node:crypto";
 import { cookies, headers } from "next/headers";
 import { NextResponse } from "next/server";
-import type { WithId } from "mongodb";
 import { getDatabase } from "@/src/server/config/database";
-import { readDatabaseConfiguration } from "@/src/server/config/mongo-client.mjs";
 import {
-  ADMIN_COOKIE,
-  isTrustedProxyRequest,
+  jwtSecret,
   readAppOrigin,
-  readAuthConfiguration,
+  isTrustedProxyRequest,
   trustedClientIp,
-} from "@/src/server/config/auth.mjs";
-import {
-  createJwtSession,
-  revokeJwtSession,
-  validateJwtSession,
-} from "@/src/server/auth/sessions.mjs";
-import { verifyAdminPassword } from "@/src/server/auth/password.mjs";
-import { findActiveAdmin, type AdminCredential } from "./admin-db";
+} from "@/src/server/config/auth.js";
+import { requireAdminSession } from "@/src/server/middleware/auth.middleware.js";
+import { checkMutationOrigin } from "@/src/server/controller/auth.controller.js";
 
-export { ADMIN_COOKIE, trustedClientIp };
+const ADMIN_COOKIE = "accessToken";
+export { trustedClientIp, checkMutationOrigin };
 const digest = (value: string) => createHash("sha256").update(value).digest("hex");
 export function isAdminConfigured() {
   try {
-    readDatabaseConfiguration();
-    readAuthConfiguration();
+    const uri = process.env.MONGODB_URI?.trim() || "";
+    const db = /^mongodb(?:\+srv)?:\/\/[^/?]+\/([A-Za-z0-9_-]{1,63})(?:\?|$)/.exec(uri)?.[1];
+    if (!db || process.env.MONGODB_DATABASE) return false;
+    jwtSecret();
+    readAppOrigin();
     return true;
   } catch {
     return false;
   }
 }
-export async function credentialsMatch(username: string, password: string) {
-  if (!username || username.length > 90 || !password || password.length > 1024) return null;
-  const admin = await findActiveAdmin(username);
-  return (await verifyAdminPassword(password, admin)) ? admin : null;
-}
-export async function createAdminSession(admin: WithId<AdminCredential>) {
-  return createJwtSession(await getDatabase(), admin);
-}
-export async function isAdminSessionValid(value?: string): Promise<boolean> {
-  if (!value) return false;
-  return (await validateJwtSession(value, getDatabase)) === "authorized";
-}
-export async function endAdminSession(value?: string) {
-  return value ? revokeJwtSession(value, getDatabase) : true;
-}
 async function adminAccessState() {
   if (!isTrustedProxyRequest(await headers())) return "forbidden";
-  const value = (await cookies()).get(ADMIN_COOKIE)?.value;
-  return value ? validateJwtSession(value, getDatabase) : "unauthorized";
+  const token = (await cookies()).get(ADMIN_COOKIE)?.value;
+  return (await requireAdminSession(token)) ? "authorized" : "unauthorized";
 }
 export async function getAdminAccess() {
-  return (await adminAccessState()) === "authorized";
-}
-export function checkMutationOrigin(request: Request) {
-  return (
-    isTrustedProxyRequest(request.headers) && request.headers.get("origin") === readAppOrigin()
-  );
+  try {
+    return (await adminAccessState()) === "authorized";
+  } catch {
+    return false;
+  }
 }
 export async function guardMutation(request: Request): Promise<NextResponse | null> {
   try {
@@ -73,18 +53,27 @@ export async function guardAdminAccess(): Promise<NextResponse | null> {
     if (state === "authorized") return null;
     if (state === "forbidden")
       return NextResponse.json({ error: "Administrator permission required." }, { status: 403 });
-    const response = NextResponse.json({ error: "Administrator login required." }, { status: 401 });
-    response.cookies.set(ADMIN_COOKIE, "", adminCookieOptions(0));
-    return response;
+    return NextResponse.json({ error: "Administrator login required." }, { status: 401 });
   } catch {
     return NextResponse.json({ error: "Authentication service unavailable." }, { status: 503 });
   }
 }
 
 type LoginLimit = { _id: string; attempts: number; expiresAt: Date };
+// MongoDB retains the index: create it at most once per running process.
+// A failed attempt is retried on the next request rather than cached forever.
+let loginLimitIndex: Promise<string> | undefined;
 export async function loginIsRateLimited(ip: string, username: string): Promise<boolean> {
   const coll = (await getDatabase()).collection<LoginLimit>("loginLimits");
-  await coll.createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0 });
+  if (!loginLimitIndex) {
+    loginLimitIndex = coll
+      .createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0 })
+      .catch((error) => {
+        loginLimitIndex = undefined;
+        throw error;
+      });
+  }
+  await loginLimitIndex;
   const now = new Date();
   const limits = [
     { key: `account:${digest(username.trim().toLowerCase().slice(0, 90))}`, maximum: 8 },

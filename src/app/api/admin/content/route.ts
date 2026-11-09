@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { guardAdminAccess, guardMutation } from "@/src/lib/admin-auth";
 import { getDatabase } from "@/src/server/config/database";
 import { getSiteOverrides } from "@/src/lib/site-content";
+import { retireMediaReference } from "@/src/server/util/media-retention.mjs";
 export const dynamic = "force-dynamic";
 async function handleGET() {
   const denied = await guardAdminAccess();
@@ -47,7 +48,12 @@ async function handlePUT(request: Request) {
   }
   // No markup parsing: website text is applied with textContent (not innerHTML).
   const key = `overrides.${body.key.replace(/\./g, "_")}`;
-  await (await getDatabase()).collection("siteContent").updateOne(
+  const db = await getDatabase();
+  const before = await db.collection("siteContent").findOne({ key: "public" });
+  const oldImage = body.key.includes(":i:")
+    ? before?.overrides?.[body.key.replace(/\./g, "_")]
+    : null;
+  await db.collection("siteContent").updateOne(
     { key: "public" },
     {
       $set: { [key]: body.value, updatedAt: new Date() },
@@ -55,6 +61,7 @@ async function handlePUT(request: Request) {
     },
     { upsert: true },
   );
+  if (oldImage && oldImage !== body.value) await retireMediaReference(oldImage).catch(() => {});
   revalidatePath("/", "layout");
   return NextResponse.json({ ok: true, key: body.key, value: body.value });
 }
@@ -74,14 +81,18 @@ async function handleDELETE(request: Request) {
       { error: "Use Homepage Background to restore the homepage photo." },
       { status: 409 },
     );
-  await (
-    await getDatabase()
-  )
+  const db = await getDatabase();
+  const before = await db.collection("siteContent").findOne({ key: "public" });
+  const oldImage = body.key.includes(":i:")
+    ? before?.overrides?.[body.key.replace(/\./g, "_")]
+    : null;
+  await db
     .collection("siteContent")
     .updateOne(
       { key: "public" },
       { $unset: { [`overrides.${body.key.replace(/\./g, "_")}`]: "" } },
     );
+  if (oldImage) await retireMediaReference(oldImage).catch(() => {});
   revalidatePath("/", "layout");
   return NextResponse.json({ ok: true });
 }
