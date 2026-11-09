@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { LockKeyhole, ArrowLeft } from "lucide-react";
@@ -9,6 +9,20 @@ export default function AdminLoginPage() {
   const router = useRouter();
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  useEffect(() => {
+    let active = true;
+    void fetch("/api/admin/refresh", { method: "POST", cache: "no-store" })
+      .then((response) => {
+        if (active && response.ok) {
+          router.replace("/admin/dashboard");
+          router.refresh();
+        }
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, [router]);
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -19,7 +33,7 @@ export default function AdminLoginPage() {
       const response = await fetch("/api/admin/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username: form.get("username"), password: form.get("password") }),
+        body: JSON.stringify({ email: form.get("email"), password: form.get("password") }),
       });
       const result = await response.json();
       if (!response.ok) throw new Error(result.error || "Unable to sign in.");
@@ -53,11 +67,12 @@ export default function AdminLoginPage() {
         </p>
         <form onSubmit={onSubmit} className="mt-8 space-y-5">
           <label className="block text-sm font-medium text-stone-700">
-            Username
+            Admin email
             <input
-              autoComplete="username"
+              autoComplete="email"
               required
-              name="username"
+              type="email"
+              name="email"
               className="mt-2 h-12 w-full rounded-xl border border-stone-200 bg-white px-4 outline-none focus:border-cyan-700 focus:ring-4 focus:ring-sky-100"
             />
           </label>

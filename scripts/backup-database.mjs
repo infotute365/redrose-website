@@ -1,4 +1,7 @@
+import nextEnv from "@next/env";
+nextEnv.loadEnvConfig(process.cwd(), process.env.NODE_ENV !== "production");
 import { BSON, MongoClient } from "mongodb";
+import { readDatabaseConfiguration } from "./lib/mongo-client.mjs";
 import { createHash, randomUUID } from "node:crypto";
 import { cp, mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
@@ -9,14 +12,13 @@ const directory = path.resolve(
 );
 let client;
 try {
-  if (!process.env.MONGODB_URI || !process.env.MONGODB_DATABASE) throw new Error();
+  const { uri, databaseName } = readDatabaseConfiguration();
   await mkdir(path.join(directory, "database"), { recursive: true, mode: 0o700 });
   await mkdir(path.join(directory, "source"), { mode: 0o700 });
   for (const item of [
     "src",
     "scripts",
     "tests",
-    "components",
     "lib",
     "data",
     "public",
@@ -32,9 +34,9 @@ try {
   }
   const environmentFile = process.env.BACKUP_ENV_FILE || ".env.local";
   await cp(environmentFile, path.join(directory, "source", "private.env"));
-  client = new MongoClient(process.env.MONGODB_URI, { serverSelectionTimeoutMS: 8000 });
+  client = new MongoClient(uri, { serverSelectionTimeoutMS: 8000 });
   await client.connect();
-  const db = client.db(process.env.MONGODB_DATABASE);
+  const db = client.db(databaseName);
   const manifest = {
     version: 1,
     database: db.databaseName,

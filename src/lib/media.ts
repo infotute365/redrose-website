@@ -1,7 +1,9 @@
-import { ObjectId } from "mongodb";
+import mongoose from "mongoose";
+const { ObjectId } = mongoose.mongo;
 import { randomUUID } from "node:crypto";
 import sharp from "sharp";
 import { getDatabase, mediaBucket } from "@/src/server/config/database";
+import { RETENTION_MS } from "@/src/server/util/media-retention.mjs";
 
 const TYPES = new Map([
   ["application/pdf", ".pdf"],
@@ -69,7 +71,14 @@ async function storeMedia(
   const bucket = await mediaBucket();
   const name = `asset-${randomUUID()}${TYPES.get(contentType)}`;
   const upload = bucket.openUploadStream(name, {
-    metadata: { ...details, contentType, originalName: originalName.slice(0, 160) },
+    metadata: {
+      ...details,
+      contentType,
+      originalName: originalName.slice(0, 160),
+      // Unattached uploads expire after seven days unless published to a CMS record.
+      retiredAt: new Date(),
+      deleteAfter: new Date(Date.now() + RETENTION_MS),
+    },
   });
   await new Promise<void>((resolve, reject) => {
     upload.on("finish", resolve);

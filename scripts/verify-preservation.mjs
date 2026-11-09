@@ -1,16 +1,20 @@
+import nextEnv from "@next/env";
+nextEnv.loadEnvConfig(process.cwd(), process.env.NODE_ENV !== "production");
 import assert from "node:assert/strict";
 import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import { BSON, MongoClient } from "mongodb";
+import { readDatabaseConfiguration } from "./lib/mongo-client.mjs";
 import { readVerifiedBackup } from "./verify-backup.mjs";
 
 let client;
 try {
   const backup = path.resolve(process.argv[2]);
-  const collections = await readVerifiedBackup(backup, process.env.MONGODB_DATABASE);
-  client = new MongoClient(process.env.MONGODB_URI, { serverSelectionTimeoutMS: 8000 });
+  const { uri, databaseName } = readDatabaseConfiguration();
+  const collections = await readVerifiedBackup(backup, databaseName);
+  client = new MongoClient(uri, { serverSelectionTimeoutMS: 8000 });
   await client.connect();
-  const db = client.db(process.env.MONGODB_DATABASE);
+  const db = client.db(databaseName);
   const canonical = (records) =>
     records.map((record) => BSON.EJSON.stringify(record, { relaxed: false })).sort();
   let checkedCollections = 0;

@@ -17,4 +17,3 @@ public/**/*.pdf
 .audit/
 .private/
 next-env.d.ts
-design-preview/assets/

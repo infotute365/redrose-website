@@ -7,6 +7,7 @@ import { guardAdminAccess, guardMutation } from "@/src/lib/admin-auth";
 import { getDatabase } from "@/src/server/config/database";
 import { getDocuments, type DocumentCategory, type SchoolDocument } from "@/src/lib/documents";
 import { MediaValidationError, saveMedia } from "@/src/lib/media";
+import { retireMediaReference } from "@/src/server/util/media-retention.mjs";
 import { isDatabaseFailure } from "@/src/server/http/api";
 export const runtime = "nodejs";
 const categories = new Set(["disclosure", "fees", "tcformat"]);
@@ -88,6 +89,7 @@ async function handlePATCH(request: Request) {
   if (denied) return denied;
   try {
     let id: string;
+    let previousFileUrl: string | undefined;
     let update: Record<string, unknown> = {};
     const type = request.headers.get("content-type") || "";
     if (type.includes("multipart/form-data")) {
@@ -95,8 +97,13 @@ async function handlePATCH(request: Request) {
       id = String(form.get("id") || "");
       if (!/^[a-zA-Z0-9-]{1,100}$/.test(id))
         return NextResponse.json({ error: "Invalid ID." }, { status: 400 });
-      if (!(await (await getDatabase()).collection("documents").findOne({ id })))
-        return NextResponse.json({ error: "Document not found." }, { status: 404 });
+      const current = await (
+        await getDatabase()
+      )
+        .collection<SchoolDocument>("documents")
+        .findOne({ id });
+      if (!current) return NextResponse.json({ error: "Document not found." }, { status: 404 });
+      previousFileUrl = current.storageUrl;
       const file = form.get("file");
       if (!(file instanceof File) || !file.size || file.size > 20 * 1024 * 1024)
         return NextResponse.json({ error: "Choose a valid file up to 20MB." }, { status: 400 });
@@ -130,6 +137,8 @@ async function handlePATCH(request: Request) {
         { returnDocument: "after", projection: { _id: 0 } },
       );
     if (!updated) return NextResponse.json({ error: "Document not found." }, { status: 404 });
+    if (previousFileUrl && previousFileUrl !== updated.storageUrl)
+      await retireMediaReference(previousFileUrl).catch(() => {}); // Daily orphan scan also catches missed marks.
     refresh();
     return NextResponse.json({ document: updated });
   } catch (error) {
@@ -153,9 +162,13 @@ async function handleDELETE(request: Request) {
     return NextResponse.json({ error: "Invalid request." }, { status: 400 });
   if (typeof body.id !== "string" || !/^[\w-]{1,100}$/.test(body.id))
     return NextResponse.json({ error: "Valid document ID required." }, { status: 400 });
-  const result = await (await getDatabase()).collection("documents").deleteOne({ id: body.id });
-  if (!result.deletedCount)
-    return NextResponse.json({ error: "Document not found." }, { status: 404 });
+  const removed = await (
+    await getDatabase()
+  )
+    .collection<SchoolDocument>("documents")
+    .findOneAndDelete({ id: body.id });
+  if (!removed) return NextResponse.json({ error: "Document not found." }, { status: 404 });
+  if (removed.storageUrl) await retireMediaReference(removed.storageUrl).catch(() => {});
   refresh();
   return NextResponse.json({ success: true });
 }

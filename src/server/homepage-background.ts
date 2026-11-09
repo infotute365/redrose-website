@@ -1,4 +1,5 @@
-import { ObjectId } from "mongodb";
+import mongoose from "mongoose";
+const { ObjectId } = mongoose.mongo;
 import { getDatabase } from "./config/database";
 import { getHomeSlides, type HomeSlide } from "@/src/lib/dynamic-sections";
 import {
@@ -8,6 +9,7 @@ import {
 } from "@/src/lib/background-types";
 import { stat } from "node:fs/promises";
 import path from "node:path";
+import { RETENTION_MS, retireMediaReference } from "./util/media-retention.mjs";
 
 export class BackgroundError extends Error {
   constructor(
@@ -28,7 +30,10 @@ export async function getHomepageBackground(): Promise<HomepageBackground | null
     position: isBackgroundPosition(slide.backgroundPosition) ? slide.backgroundPosition : null,
     revision: slide.backgroundRevision || 0,
     previous:
-      slide.previousBackground && isSafeImageReference(slide.previousBackground.src)
+      slide.previousBackground &&
+      (!slide.previousBackgroundExpiresAt ||
+        new Date(slide.previousBackgroundExpiresAt).getTime() > Date.now()) &&
+      isSafeImageReference(slide.previousBackground.src)
         ? {
             src: slide.previousBackground.src,
             position: isBackgroundPosition(slide.previousBackground.position)
@@ -134,6 +139,7 @@ export async function updateHomepageBackground(input: Record<string, unknown>) {
         src,
         backgroundPosition: position,
         previousBackground: { src: current.src, position: current.position },
+        previousBackgroundExpiresAt: new Date(Date.now() + RETENTION_MS),
         backgroundRevision: current.revision + 1,
       },
     },
@@ -141,6 +147,7 @@ export async function updateHomepageBackground(input: Record<string, unknown>) {
   );
   if (!item)
     throw new BackgroundError("Another change was saved first. Reload and try again.", 409);
+  if (src !== current.src) await retireMediaReference(current.src).catch(() => {});
   return {
     slideId: item.id,
     title: item.title,

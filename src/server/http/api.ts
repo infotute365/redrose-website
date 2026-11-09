@@ -1,13 +1,14 @@
 import { NextResponse } from "next/server";
-import { MongoError } from "mongodb";
-import { DatabaseConfigurationError, DatabaseUnavailableError } from "../config/mongo-client.mjs";
+import mongoose from "mongoose";
 import { JsonInputError } from "./json.mjs";
 
 export function isDatabaseFailure(error: unknown) {
   return (
-    error instanceof MongoError ||
-    error instanceof DatabaseConfigurationError ||
-    error instanceof DatabaseUnavailableError
+    error instanceof mongoose.mongo.MongoError ||
+    (error instanceof Error &&
+      ["MongooseServerSelectionError", "MongoServerSelectionError", "MongoNetworkError"].includes(
+        error.name,
+      ))
   );
 }
 export function withApiBoundary<T extends unknown[]>(handler: (...args: T) => Promise<Response>) {

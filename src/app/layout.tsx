@@ -39,8 +39,9 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   // Nonce-based CSP requires request-time HTML, including otherwise static pages.
-  await headers();
-  const initialOverrides = await getSiteOverrides();
+  const pathname = (await headers()).get("x-public-pathname") || "/";
+  // The admin pages never render public CMS overrides; skip that database read.
+  const initialOverrides = pathname.startsWith("/admin") ? {} : await getSiteOverrides();
   return (
     <html lang="en">
       <body className="flex min-h-screen flex-col antialiased">
